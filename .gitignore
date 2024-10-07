@@ -1,0 +1,14 @@
+# Ignore Visual Studio files
+.vs/
+*.vcxproj
+*.vcxproj.user
+*.sln
+
+# Ignore build files
+/build/
+*.o
+*.exe
+
+# Ignore temporary files
+*.log
+
