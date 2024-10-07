@@ -3,6 +3,7 @@
 *.vcxproj
 *.vcxproj.user
 *.sln
+*.vcxproj.filters
 
 # Ignore build files
 /build/
@@ -11,4 +12,7 @@
 
 # Ignore temporary files
 *.log
+# Ignore specific directories
+Deserted.92059F20/
+x64/
 
