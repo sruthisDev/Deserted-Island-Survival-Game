@@ -13,7 +13,7 @@ protected:
 	vector <string> resourcesAvailable;
 
 public:
-	Location(char s = ' ');
+	Location(char s = 'L');
 
 	void setSymbol(char symbol);
 	void setVisited(bool visited);	

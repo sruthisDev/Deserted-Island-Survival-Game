@@ -35,8 +35,6 @@ int Location::visit(Player& p) {
 	if (!visited) {
 		visited = true;
 		cout << "You found a new location." << endl;
-		p.CraftTools(resourcesAvailable);
-
 	}
 	return 1;
 

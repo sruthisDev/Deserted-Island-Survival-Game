@@ -40,13 +40,37 @@ void Game::SetUpGame(int userRows, int userCols, int userPlayerRow, int userPlay
 
             world[i][j] = new Location();
 
+            if (i == 0 ||  i == 5) {
+                world[i][j] = new Beach();
+            }
+            
+            if (i == 1 || i == 3) {
+                world[i][j] = new Mountain();
+            }
+
+            if (i == 2) {
+                world[i][j] = new Cave();
+            }
+
+            
+
         }
     }
+    /*
+    if (i == 2) {
+                world[i][j] = new Jungle();
+            }
+            if (i == 4) {
+                world[i][j] = new Cave();
+            }
+            if (i == 5) {
+                world[i][j] = new Lake();
+            }
     world[1][2] = new Beach();
     world[2][2] = new Jungle();
     world[3][3] = new Mountain();
     world[3][4] = new Cave();
-    world[4][5] = new Lake();
+    world[4][5] = new Lake();*/
 }
 
 void Game::DrawGame() {

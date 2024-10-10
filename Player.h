@@ -16,6 +16,7 @@ private:
 	int numAnimalsKilled;
 	vector<string> tools;
 	vector<string> rawMaterial;
+	bool visitedCave;
 
 public:
 
@@ -33,12 +34,16 @@ public:
 	void SetNumAnimalsKilled(int numAnimalsKilled);
 	int GetNumAnimalsKilled();
 	
-	void CraftTools(vector<string>  rawMaterial);
+	void CraftTools();
 	void AddTools(string toolName); // remove it if rew bcz in craft tools u can add it to the tool vector
 	int GetNumOfTools();
 
+	void CollectRawMaterial(vector<string>  rawMaterial);
 	void PrintStatus();
 	bool CheckWinConditions();
+
+	void VisitCave();
+	bool HasVisitedCave();
 
 
 };
