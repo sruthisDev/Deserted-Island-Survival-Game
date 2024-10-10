@@ -1,4 +1,4 @@
-
+#include <conio.h>
 #include "Game.h"
 #include "Location.h"
 #include"Beach.h"
@@ -6,6 +6,9 @@
 #include"Jungle.h"
 #include"Cave.h"
 #include"Lake.h"
+#include <windows.h>
+#define SET_COLOR(code) std::cout << "\033[" << (code) << "m"
+#define RESET_COLOR() std::cout << "\033[0m"
 
 Game::Game() {
     world = nullptr;
@@ -51,6 +54,9 @@ void Game::SetUpGame(int userRows, int userCols, int userPlayerRow, int userPlay
             if (i == 2) {
                 world[i][j] = new Cave();
             }
+            if (i == 6) {
+                world[i][j] = new Jungle();
+            }
 
             
 
@@ -89,8 +95,18 @@ void Game::DrawGame() {
 void Game::PlayGame() {
     SetUpGame(10, 10, 4, 5);
 
+    world[playerRow][playerCol]->visit(p,1);
     char move;
     bool keepPlaying = true;
+    system("cls"); 
+    SET_COLOR(33);  
+    cout << "========================================\n";
+    cout << "        DESERTED ISLAND SURVIVAL            \n";
+    cout << "========================================\n";     
+    cout << "Adventure awaits as you strive to survive.";
+    RESET_COLOR();
+    cout << "\nUse 'W' to move up, 'S' to move down, 'A' to move left, 'D' to move right.\n\n";
+
     do {
         DrawGame();
 
@@ -114,11 +130,33 @@ void Game::PlayGame() {
         }
 
         world[playerRow][playerCol]->visit(p);
-        p.PrintStatus();
         p.SetSurvivalDays(1);
+        p.PrintStatus();
+        
         if (p.CheckWinConditions()) {
-            std::cout << "Game Over: You won!\n";
-            break;
+            cout << "\033[33m";
+            cout << R"(
+#########################################################################
+You have successfully survived on the COMP-180 Island and won the game!
+#########################################################################
+               ~~~~~~~~~~~~~~~    
+            ~~~~            ~~~~  
+         ~~~~                  ~~~~  
+       ~~~~                      ~~~~
+      ~~~~          \O/            ~~~~
+     ~~~~            |           ~~~~
+     ~~~~           / \           ~~~~
+      ~~~~                        ~~~~
+       ~~~~                      ~~~~
+         ~~~~                  ~~~~
+            ~~~~            ~~~~
+               ~~~~~~~~~~~~~~~
+        ~~~~~~~~~~~~~~~~  ~~~~~~~~~~~~~~~
+#########################################################################
+)" << std::endl;
+        cout << "\033[0m";
+        break;
+
         }
         char continuePlaying;
         std::cout << "Continue exploring? (y/n): ";

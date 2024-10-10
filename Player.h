@@ -16,7 +16,7 @@ private:
 	int numAnimalsKilled;
 	vector<string> tools;
 	vector<string> rawMaterial;
-	bool visitedCave;
+	bool HasfoundMysteryPlace;
 
 public:
 
@@ -42,8 +42,8 @@ public:
 	void PrintStatus();
 	bool CheckWinConditions();
 
-	void VisitCave();
-	bool HasVisitedCave();
+	void foundMysteryPlace();
+	bool HasVisitedMysteryPlace();
 
 
 };

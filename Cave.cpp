@@ -32,14 +32,14 @@ int Cave::visit(Player& p) {
 		p.CraftTools();
 
 		/*
-		if (dis(gen) == 0) {
-			std::cout << "You've discovered a secret place! This is a major victory!\n";
-			exit(0);  
+		if (dis(gen) % 100 < 40) {
+			std::cout << "You've discovered a secret place! You have achieved an objective!\n";
+			p.VisitCave();
 		}
 		*/
 
-		std::cout << "You've discovered a secret place! This is a major victory!\n";
-		p.VisitCave();
+		std::cout << "You've discovered a secret place! You have achieved an objective!\n";
+		p.foundMysteryPlace();
 	}
 	return 1;
 }

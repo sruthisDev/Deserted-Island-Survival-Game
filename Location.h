@@ -21,6 +21,7 @@ public:
 	char getSymbol();
 	virtual void draw();
 	virtual int visit(Player& p);
+	virtual int visit(Player& p, bool init);
 
 };
 

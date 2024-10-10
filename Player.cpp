@@ -7,7 +7,7 @@ Player::Player() {
 	this->food = 100;
 	this->survivalDays = 0;
 	this->numAnimalsKilled= 0;
-	this->visitedCave = false;
+	this->HasfoundMysteryPlace = false;
 	this->tools;
 }
 
@@ -33,7 +33,7 @@ int Player::GetSurvivalDays() {
 }
 
 void Player::SetNumAnimalsKilled(int userNumAnimalsKilled) {
-	this->numAnimalsKilled = userNumAnimalsKilled;
+	this->numAnimalsKilled += userNumAnimalsKilled;
 }
 int Player::GetNumAnimalsKilled() {
 	return this->numAnimalsKilled;
@@ -88,21 +88,22 @@ void Player::PrintStatus() {
 
 bool Player::CheckWinConditions() {
 
-	//if (GetNumOfTools() >= 5 && GetSurvivalDays() >= 30 && GetNumAnimalsKilled() >= 10 && HasVisitedCave())
-	if (GetNumOfTools() >= 2 && GetSurvivalDays() >= 4 && HasVisitedCave()) {
-		cout << "Win Condition Met: Enough tools were collected, ";
-		cout << "Enough animals were killed and ";
-		cout << "Survived total 30 days. ";
-		cout << "Visited the caves secret place" << endl;
+	//if (GetNumOfTools() >= 5 && GetSurvivalDays() >= 30 && GetNumAnimalsKilled() >= 10 && HasVisitedMysteryPlace())
+	if (GetNumOfTools() >= 2 && GetSurvivalDays() >= 4 && HasVisitedMysteryPlace() && GetNumAnimalsKilled() >= 1) {
+		cout << "\n \n Win Conditions Met: "<< endl; 
+		cout << "Required number of tools were crafted (5) " << endl;
+		cout << "Required number of animals were killed (10) " << endl;
+		cout << "Survived for total (30) days. ";
+		cout << "Found the caves secret place" << endl;
 		return true;
 	}
 	return false;
 }
 
-void Player::VisitCave() {
-	visitedCave = true;
+void Player::foundMysteryPlace() {
+	HasfoundMysteryPlace = true;
 }
 
-bool Player::HasVisitedCave()  {
-	return visitedCave;
+bool Player::HasVisitedMysteryPlace()  {
+	return HasfoundMysteryPlace;
 }

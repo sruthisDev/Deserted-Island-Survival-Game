@@ -37,5 +37,12 @@ int Location::visit(Player& p) {
 		cout << "You found a new location." << endl;
 	}
 	return 1;
+}
 
+int Location::visit(Player& p, bool init) {
+	if (!visited) {
+		visited = true;
+		//cout << "You found a new location." << endl;
+	}
+	return 1;
 }

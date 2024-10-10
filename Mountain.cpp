@@ -23,8 +23,8 @@ int Mountain::visit(Player& p) {
 	if (!visited) {
 		visited = true;
 		cout << "Climbing the mountain..."<<endl;
-		cout << "You gather some resources as you climb."<<endl;
 		p.CollectRawMaterial(resourcesAvailable);
+		cout << "You gather some resources as you climb. [" << resourcesAvailable.at(0) << "]" << " [" << resourcesAvailable.at(1) << "]" << " [" << resourcesAvailable.at(2) << "]" << endl;
 		p.CraftTools();
 	}
 	return 1;
