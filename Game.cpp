@@ -1,5 +1,11 @@
+
 #include "Game.h"
 #include "Location.h"
+#include"Beach.h"
+#include"Mountain.h"
+#include"Jungle.h"
+#include"Cave.h"
+#include"Lake.h"
 
 Game::Game() {
     world = nullptr;
@@ -36,7 +42,13 @@ void Game::SetUpGame(int userRows, int userCols, int userPlayerRow, int userPlay
 
         }
     }
+    world[1][2] = new Beach();
+    world[2][2] = new Jungle();
+    world[3][3] = new Mountain();
+    world[3][4] = new Cave();
+    world[4][5] = new Lake();
 }
+
 void Game::DrawGame() {
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
@@ -48,10 +60,10 @@ void Game::DrawGame() {
             }
         }
         cout << endl;
-    }
+    }    
 }
 void Game::PlayGame() {
-    SetUpGame(8, 8, 4, 4);
+    SetUpGame(10, 10, 4, 5);
 
     char move;
     bool keepPlaying = true;
@@ -78,7 +90,12 @@ void Game::PlayGame() {
         }
 
         world[playerRow][playerCol]->visit(p);
-
+        p.PrintStatus();
+        p.SetSurvivalDays(1);
+        if (p.CheckWinConditions()) {
+            std::cout << "Game Over: You won!\n";
+            break;
+        }
         char continuePlaying;
         std::cout << "Continue exploring? (y/n): ";
         std::cin >> continuePlaying;

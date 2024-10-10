@@ -36,7 +36,9 @@ public:
 	void CraftTools(vector<string>  rawMaterial);
 	void AddTools(string toolName); // remove it if rew bcz in craft tools u can add it to the tool vector
 	int GetNumOfTools();
-	
+
+	void PrintStatus();
+	bool CheckWinConditions();
 
 
 };

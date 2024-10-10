@@ -9,7 +9,7 @@ using namespace std;
 
 class Game
 {
-private:
+
 private:
     Location*** world;
     Player p;

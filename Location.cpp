@@ -34,9 +34,9 @@ void Location::draw() {
 int Location::visit(Player& p) {
 	if (!visited) {
 		visited = true;
-		cout << "You found the location." << endl;
-		cout << "you found some raw materials" << endl;
+		cout << "You found a new location." << endl;
 		p.CraftTools(resourcesAvailable);
+
 	}
 	return 1;
 
