@@ -30,6 +30,8 @@ Game::~Game() {
 
 void Game::ReadDataFile(string fileName) {
 
+
+
 }
 void Game::SetUpGame(int userRows, int userCols, int userPlayerRow, int userPlayerCol) {
     rows = userRows;
@@ -134,8 +136,8 @@ void Game::PlayGame() {
         p.PrintStatus();
         
         if (p.CheckWinConditions()) {
-            cout << "\033[33m";
-            cout << R"(
+            std::cout << "\033[33m"; 
+            std::cout << R"(
 #########################################################################
 You have successfully survived on the COMP-180 Island and won the game!
 #########################################################################
@@ -143,9 +145,15 @@ You have successfully survived on the COMP-180 Island and won the game!
             ~~~~            ~~~~  
          ~~~~                  ~~~~  
        ~~~~                      ~~~~
+)";           
+        cout << "\033[32m"; 
+        cout << R"(
       ~~~~          \O/            ~~~~
-     ~~~~            |           ~~~~
+     ~~~~            |             ~~~~
      ~~~~           / \           ~~~~
+)";
+        cout << "\033[33m";
+        cout << R"(
       ~~~~                        ~~~~
        ~~~~                      ~~~~
          ~~~~                  ~~~~
@@ -153,16 +161,60 @@ You have successfully survived on the COMP-180 Island and won the game!
                ~~~~~~~~~~~~~~~
         ~~~~~~~~~~~~~~~~  ~~~~~~~~~~~~~~~
 #########################################################################
-)" << std::endl;
+)" <<endl;
         cout << "\033[0m";
         break;
 
         }
+        if (p.GetPlayerHealth() <0) {
+                cout << "\033[33m"; 
+                cout << R"(
+#########################################################################
+Unfortunately, you have not survived on COMP-180 Island and lost the game!
+#########################################################################
+               ~~~~~~~~~~~~~~~    
+            ~~~~            ~~~~  
+         ~~~~                  ~~~~  
+       ~~~~                      ~~~~
+)";
+
+            // Set text color to light red for the center structure (the defeated player)
+            cout << "\033[91m"; // ANSI escape code for light red
+            cout << R"(
+      ~~~~          X X            ~~~~
+     ~~~~            |           ~~~~
+     ~~~~           / \           ~~~~
+)";
+            cout << "\033[33m";
+            cout << R"(
+      ~~~~                        ~~~~
+       ~~~~                      ~~~~
+         ~~~~                  ~~~~
+            ~~~~            ~~~~
+               ~~~~~~~~~~~~~~~
+        ~~~~~~~~~~~~~~~~  ~~~~~~~~~~~~~~~
+#########################################################################
+)" << endl;
+        cout << "\033[0m";
+        }
         char continuePlaying;
-        std::cout << "Continue exploring? (y/n): ";
-        std::cin >> continuePlaying;
+        cout << "Continue exploring? (y/n): ";
+        cin >> continuePlaying;
         if (continuePlaying == 'n') {
             keepPlaying = false;
+        }
+        else if (continuePlaying == 'y') {
+            keepPlaying = true;
+        }
+        else {
+            cout << "kindly slecet (y/n): ";
+            cin >> continuePlaying;
+            if (continuePlaying == 'n') {
+                keepPlaying = false;
+            }
+            else if (continuePlaying == 'y') {
+                keepPlaying = true;
+            }
         }
 
     } while (keepPlaying);

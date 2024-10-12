@@ -72,28 +72,28 @@ void Player::PrintStatus() {
 
 
 	cout << "GAME STATUS: " << endl;
-	int metricWidth = 20;  // Width for the "Metric" column
-	int valueWidth = 10;   // Width for the "Current" column
+	int metricWidth = 20;  
+	int valueWidth = 10;  
 
-	cout << "+----------------------+------------------+\n";
+	cout << "+-------------------+---------+\n";
 	cout << "| " << left << setw(metricWidth - 2) << "Metric" << "| " << setw(valueWidth - 2) << "Current" << "|\n";
-	cout << "+----------------------+------------------+\n";
+	cout << "+-------------------+---------+\n";
 
 	cout << "| " << left << setw(metricWidth - 2) << "Tools Collected" << "| " << setw(valueWidth - 2) << GetNumOfTools() << "|\n";
 	cout << "| " << left << setw(metricWidth - 2) << "Animals Killed" << "| " << setw(valueWidth - 2) << GetNumAnimalsKilled() << "|\n";
 	cout << "| " << left << setw(metricWidth - 2) << "Days Survived" << "| " << setw(valueWidth - 2) << GetSurvivalDays() << "|\n";
 
-	cout << "+----------------------+------------------+\n";
+	cout << "+-------------------+---------+\n";
 }
 
 bool Player::CheckWinConditions() {
 
 	//if (GetNumOfTools() >= 5 && GetSurvivalDays() >= 30 && GetNumAnimalsKilled() >= 10 && HasVisitedMysteryPlace())
 	if (GetNumOfTools() >= 2 && GetSurvivalDays() >= 4 && HasVisitedMysteryPlace() && GetNumAnimalsKilled() >= 1) {
-		cout << "\n \n Win Conditions Met: "<< endl; 
-		cout << "Required number of tools were crafted (5) " << endl;
-		cout << "Required number of animals were killed (10) " << endl;
-		cout << "Survived for total (30) days. ";
+		cout << "\n \nWin Conditions Met: "<< endl; 
+		cout << "Required number of tools were crafted ("<< GetNumOfTools () << ")" << endl;
+		cout << "Required number of animals were killed ("<< GetNumAnimalsKilled ()<<") " << endl;
+		cout << "Survived for total (" << GetSurvivalDays() << ") days. " << endl;;
 		cout << "Found the caves secret place" << endl;
 		return true;
 	}
