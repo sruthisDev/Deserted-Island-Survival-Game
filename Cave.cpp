@@ -24,9 +24,6 @@ int Cave::visit(Player& p) {
 
 		visited = true;
 		cout << "Exploring a mysterious cave..." << endl;
-		random_device rd;
-		mt19937 gen(rd());
-		uniform_int_distribution<> dis(0, 9);
 
 		p.CollectRawMaterial(resourcesAvailable);
 		p.CraftTools();

@@ -4,7 +4,7 @@
 Player::Player() {
 	this->health = 100;
 	this->water = 100;
-	this->food = 100;
+	this->enoughFood = true;
 	this->survivalDays = 0;
 	this->numAnimalsKilled= 0;
 	this->HasfoundMysteryPlace = false;
@@ -79,6 +79,9 @@ void Player::PrintStatus() {
 	cout << "| " << left << setw(metricWidth - 2) << "Metric" << "| " << setw(valueWidth - 2) << "Current" << "|\n";
 	cout << "+-------------------+---------+\n";
 
+	cout << "| " << left << setw(metricWidth - 2) << "Player Health" << "| " << setw(valueWidth - 2) << GetPlayerHealth() << "|\n";
+	cout << "| " << left << setw(metricWidth - 2) << "Player Water" << "| " << setw(valueWidth - 2) << GetWater() << "|\n";
+	cout << "| " << left << setw(metricWidth - 2) << "Has Food for Today" << "| " << setw(valueWidth - 2) << GetEnoughFood() << "|\n";
 	cout << "| " << left << setw(metricWidth - 2) << "Tools Collected" << "| " << setw(valueWidth - 2) << GetNumOfTools() << "|\n";
 	cout << "| " << left << setw(metricWidth - 2) << "Animals Killed" << "| " << setw(valueWidth - 2) << GetNumAnimalsKilled() << "|\n";
 	cout << "| " << left << setw(metricWidth - 2) << "Days Survived" << "| " << setw(valueWidth - 2) << GetSurvivalDays() << "|\n";
@@ -101,9 +104,17 @@ bool Player::CheckWinConditions() {
 }
 
 void Player::foundMysteryPlace() {
-	HasfoundMysteryPlace = true;
+	this->HasfoundMysteryPlace = true;
 }
 
 bool Player::HasVisitedMysteryPlace()  {
-	return HasfoundMysteryPlace;
+	return this->HasfoundMysteryPlace;
+}
+
+void Player::SetEnoughFood(bool enoughFood) {
+	this->enoughFood = true;
+}
+
+bool Player::GetEnoughFood() {
+	return this->enoughFood;
 }

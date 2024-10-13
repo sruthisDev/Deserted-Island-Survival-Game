@@ -1,0 +1,7 @@
+6 6
+lake Beach o mountain 0 0
+Beach o o beach 0 0
+o o o jungle 0 0
+o o o beach 0 0
+o o o beach 0 0
+o o o beach 0 0
