@@ -41,30 +41,35 @@ int Player::GetNumAnimalsKilled() {
 
 void Player::CraftTools() {
 
-	auto woodIter = std::find(rawMaterial.begin(), rawMaterial.end(), "wood");
-	auto stoneIter = std::find(rawMaterial.begin(), rawMaterial.end(), "stones");
+	//auto woodIter = std::find(rawMaterial.begin(), rawMaterial.end(), "wood");
+	//auto stoneIter = std::find(rawMaterial.begin(), rawMaterial.end(), "stones");
 
-	if (woodIter != rawMaterial.end() && stoneIter != rawMaterial.end()) {
-		tools.push_back("hammer");
-		rawMaterial.erase(woodIter);  
-		stoneIter = std::find(rawMaterial.begin(), rawMaterial.end(), "stones");
-		rawMaterial.erase(stoneIter);  
+	//if (woodIter != rawMaterial.end() && stoneIter != rawMaterial.end()) {
+	//	tools.push_back("hammer");
+	//	rawMaterial.erase(woodIter);  
+	//	stoneIter = std::find(rawMaterial.begin(), rawMaterial.end(), "stones");
+	//	rawMaterial.erase(stoneIter);  
 
-		std::cout << "Crafted a hammer using wood and stone.\n";
-	}
+	//	std::cout << "Crafted a hammer using wood and stone.\n";
+	//}
 }
 
 void Player::AddTools(string userToolName) {
 	this->tools.push_back(userToolName);
 }
-int Player::GetNumOfTools() {
+size_t Player::GetNumOfTools() {
 	return this->tools.size();
 }
 
 void Player::CollectRawMaterial(vector<string>  items) {
 	
 	for(size_t i=0; i< items.size(); i++){
-		rawMaterial.push_back(items[i]);
+		if (this->rawMaterial.count(items[i]) > 0) {
+			this->rawMaterial[items[i]]++;	//Add number of resources
+		}
+		else {
+			this->rawMaterial[items[i]] = 1; //First time resource
+		}
 	}
 }
 

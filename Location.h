@@ -16,6 +16,8 @@ protected:
 public:
 	Location(char s = 'L');
 
+	
+
 	void setSymbol(char symbol);
 	void setVisited(bool visited);	
 	bool getVisited();
@@ -23,6 +25,8 @@ public:
 	virtual void draw();
 	virtual int visit(Player& p);
 	virtual int visit(Player& p, bool init);
+	virtual vector<string>& getResources();
+	virtual void CollectResources(Player& p, size_t numResources);
 
 };
 

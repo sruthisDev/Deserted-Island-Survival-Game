@@ -20,16 +20,16 @@ void Jungle::draw() {
 
 }
 int Jungle::visit(Player& p) {
+
+	size_t numResources = 0;
 	if (!visited) {
 		visited = true;
+		numResources = getResources().size();
 		cout << "You have entered the Jungle. There are many resources here and Danger lurks around every tree...\n\n";
-		p.CollectRawMaterial(resourcesAvailable);
-		cout << "You gather some resources as you climb. [" << resourcesAvailable.at(0) << "]" << " [" << resourcesAvailable.at(1) << "]" << " [" << resourcesAvailable.at(2) << "]" << " [" << resourcesAvailable.at(3) << "]" << endl;
-		p.CraftTools();
 		std::cout << "An animal appears!\n";
 		std::cout << "Choose an action: \n1. Attack\n2. Escape\n";
 		char action;
-		std::cin >> action;  
+		std::cin >> action;
 
 		if (action == '1') {
 			attack(p);
@@ -38,6 +38,11 @@ int Jungle::visit(Player& p) {
 			escape(p);
 		}
 	}
+	else {
+		numResources = 1;
+		cout << "You are again at the Jungle. You find fewer resources." << endl;
+	}
+	CollectResources(p, numResources);
 	return 1;
 }
 

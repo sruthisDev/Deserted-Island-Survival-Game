@@ -3,6 +3,7 @@
 #include<vector>
 #include<string>
 #include<iostream>
+#include<map>
 
 using namespace std;
 
@@ -15,7 +16,7 @@ private:
 	int survivalDays;
 	int numAnimalsKilled;
 	vector<string> tools;
-	vector<string> rawMaterial;
+	map<string,int> rawMaterial;
 	bool HasfoundMysteryPlace;
 
 public:
@@ -24,7 +25,7 @@ public:
 	
 	void CraftTools();
 	void AddTools(string toolName); // remove it if rew bcz in craft tools u can add it to the tool vector
-	int GetNumOfTools();
+	size_t GetNumOfTools();
 
 	void CollectRawMaterial(vector<string>  rawMaterial);
 	void PrintStatus();

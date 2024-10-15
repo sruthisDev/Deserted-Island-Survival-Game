@@ -25,8 +25,8 @@ char checkAndGetInput(std::vector<char> options, string text) {
 	return input;
 }
 
-int generateRandomNumber(int first, int last) {
+int generateRandomNumber(int start, int end) {
 	static std::mt19937 generator(42); 
-	std::uniform_int_distribution<int> distribution(first, last);
+	std::uniform_int_distribution<int> distribution(start, end);
 	return distribution(generator);
 }

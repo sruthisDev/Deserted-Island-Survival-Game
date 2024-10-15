@@ -30,39 +30,16 @@ int Beach::GetValue() {
 
 int Beach::visit(Player& p) {
 
-	vector<string> resourcesCollected;
-	int index, sizeOfResources;
-	sizeOfResources = resourcesAvailable.size() - 1;
-
-	if (!visited) {  
-
+	size_t numResources = 0;
+	if (!visited) {
 		visited = true;
-		cout << "You have arrived at the beach. You find various resources."<< endl;
-		SetValue(generateRandomNumber(0, sizeOfResources)) ;
-		cout << "You gather some resources as you climb.";
-		for (int i = 0; i < GetValue(); i++) {
-			index = generateRandomNumber(0, sizeOfResources);
-			resourcesCollected.push_back( resourcesAvailable[index]);
-			cout << " [" << resourcesCollected[i] << "]";
-		}
-		cout << endl;
-		p.CollectRawMaterial(resourcesCollected);
-		p.CraftTools();
+		numResources = getResources().size();
+		cout << "You have arrived at the beach. You find various resources." << endl;
 	}
 	else {
-
-		cout << "You are again at the beach. You find few resources." << endl;
-		SetValue(resourcesAvailable.size()/2);
-		cout << "You gather some resources as you climb.";
-		for (int i = 0; i < GetValue(); i++) {
-			index = generateRandomNumber(0, sizeOfResources);
-			resourcesCollected.push_back(resourcesAvailable[index]);
-			cout << " [" << resourcesCollected[i] << "]";
-		}
-		cout << endl;
-		p.CollectRawMaterial(resourcesCollected);
-		p.CraftTools();
-
+		numResources = 1;
+		cout << "You are again at the beach. You find fewer resources." << endl;
 	}
+	CollectResources(p, numResources);
 	return 1;
 }

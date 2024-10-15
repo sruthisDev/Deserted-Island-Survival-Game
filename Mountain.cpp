@@ -20,12 +20,16 @@ void Mountain::draw() {
 
 }
 int Mountain::visit(Player& p) {
+	size_t numResources = 0;
 	if (!visited) {
 		visited = true;
-		cout << "Climbing the mountain..."<<endl;
-		p.CollectRawMaterial(resourcesAvailable);
-		cout << "You gather some resources as you climb. [" << resourcesAvailable.at(0) << "]" << " [" << resourcesAvailable.at(1) << "]" << " [" << resourcesAvailable.at(2) << "]" << endl;
-		p.CraftTools();
+		numResources = getResources().size();
+		cout << "Climbing the mountain" << endl;
 	}
+	else {
+		numResources = 1;
+		cout << "You are again at the Mountain. You find fewer resources." << endl;
+	}
+	CollectResources(p, numResources);
 	return 1;
 }

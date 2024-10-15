@@ -20,23 +20,18 @@ void Cave::draw() {
 
 }
 int Cave::visit(Player& p) {
+	size_t numResources = 0;
 	if (!visited) {
-
 		visited = true;
-		cout << "Exploring a mysterious cave..." << endl;
-
-		p.CollectRawMaterial(resourcesAvailable);
-		p.CraftTools();
-
-		/*
-		if (dis(gen) % 100 < 40) {
-			std::cout << "You've discovered a secret place! You have achieved an objective!\n";
-			p.VisitCave();
-		}
-		*/
-
-		std::cout << "You've discovered a secret place! You have achieved an objective!\n";
+		numResources = getResources().size();
+		cout << "You have arrived at the Cave. You find various resources." << endl;
+		cout << "You've discovered a secret place! You have achieved an objective!\n";
 		p.foundMysteryPlace();
 	}
+	else {
+		numResources = 1;
+		cout << "You are again at the Cave. You find fewer resources." << endl;
+	}
+	CollectResources(p, numResources);
 	return 1;
 }

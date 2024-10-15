@@ -20,12 +20,16 @@ void Lake::draw() {
 
 }
 int Lake::visit(Player& p) {
+	size_t numResources = 0;
 	if (!visited) {
 		visited = true;
-		cout << "You have arrived at the beach. You find various resources." << endl;
-		p.CollectRawMaterial(resourcesAvailable);
-		cout << "You gather some resources as you climb. [" << resourcesAvailable.at(0) << "]" << " [" << resourcesAvailable.at(1) << endl;
-		p.CraftTools();
+		numResources = getResources().size();
+		cout << "You have arrived at the Lake. You find various resources." << endl;
 	}
+	else {
+		numResources = 1;
+		cout << "You are again at the Lake. You find fewer resources." << endl;
+	}
+	CollectResources(p, numResources);
 	return 1;
 }

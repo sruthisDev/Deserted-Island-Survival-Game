@@ -225,9 +225,9 @@ void Game::DrawGame() {
 }
 
 void Game::calculateWinConditions(vector<vector<string>>& data) {
-    this->numDaysToSurvive = (data[0].size() * data.size()) / 2;
+    this->numDaysToSurvive = static_cast<int>((data[0].size() * data.size()) / 2);
     this->numAnimalsToKill = 0;
-    this->numToolsToCollect = ((data[0].size() * data.size()) / 3) + 5;
+    this->numToolsToCollect = static_cast<int>(((data[0].size() * data.size()) / 3) + 5);
 }
 
 void Game::PlayGame() {
