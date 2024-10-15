@@ -103,9 +103,9 @@ void Game::ReadDataFile(vector<vector<string>>& data) {
     string line;
     int currentRow = 0;
     while (getline(inputFile, line) && currentRow < rows) {
-        std::istringstream iss(line);
-        std::vector<std::string> temp;
-        std::string word;
+        istringstream iss(line);
+        vector<string> temp;
+        string word;
         while (iss >> word) {
             temp.push_back(word);
         }
@@ -207,21 +207,7 @@ void Game::SetUpGame(int userRows, int userCols, int userPlayerRow, int userPlay
 
         }
     }
-    /*
-    if (i == 2) {
-                world[i][j] = new Jungle();
-            }
-            if (i == 4) {
-                world[i][j] = new Cave();
-            }
-            if (i == 5) {
-                world[i][j] = new Lake();
-            }
-    world[1][2] = new Beach();
-    world[2][2] = new Jungle();
-    world[3][3] = new Mountain();
-    world[3][4] = new Cave();
-    world[4][5] = new Lake();*/
+    
 }
 
 void Game::DrawGame() {
@@ -254,6 +240,8 @@ void Game::PlayGame() {
     world[playerRow][playerCol]->visit(p,1);
     char move;
     bool keepPlaying = true;
+    bool wrongPosition = false;
+
     system("cls"); 
     SET_COLOR(33);  
     cout << endl;
@@ -286,58 +274,83 @@ void Game::PlayGame() {
 
     do {
         DrawGame();
-
+        wrongPosition = false;
         move = checkAndGetInput({ 'w', 'a', 's', 'd' }, "Move (WASD): ");
 
         switch (move) {
         case 'w':
-            if (playerRow > 0) --playerRow;
+            if (playerRow > 0) {
+                --playerRow;
+            }
+            else {
+                wrongPosition = true;
+                cout << "Player is at '" << playerRow+1 << "' row cant take this move from this position" << endl;
+            }
             break;
         case 's':
-            if (playerRow < rows - 1) ++playerRow;
+            if (playerRow < rows - 1) {
+                ++playerRow;
+            }
+            else {
+                wrongPosition = true;
+                cout << "Player is at '" << playerRow+1 << "' row cant take this move from this position" << endl;
+            }
             break;
         case 'a':
-            if (playerCol > 0) --playerCol;
+            if (playerCol > 0){
+                --playerCol;
+            }else {
+                wrongPosition = true;
+                cout << "Player is at '" << playerCol+1 << "' column cant take this move from this position" << endl;
+            }
             break;
         case 'd':
-            if (playerCol < cols - 1) ++playerCol;
+            if (playerCol < cols - 1) {
+                ++playerCol;
+            }
+            else {
+                wrongPosition = true;
+                cout << "Player is at '" << playerCol+1 << "' column cant take this move from this position" << endl;
+            }
             break;
         }
+        if (!wrongPosition) {
+            world[playerRow][playerCol]->visit(p);
+            p.SetSurvivalDays(1);
+            p.PrintStatus();
 
-        world[playerRow][playerCol]->visit(p);
-        p.SetSurvivalDays(1);
-        p.PrintStatus();
-        
-        if (p.CheckWinConditions()) {
-            WinGame();
-            break;
-        }
-        if (p.GetPlayerHealth() <0) {
-            GameOver();
-            break;
-        }
+            if (p.CheckWinConditions()) {
+                WinGame();
+                break;
+            }
+            if (p.GetPlayerHealth() < 0) {
+                GameOver();
+                break;
+            }
 
-        char continuePlaying = checkAndGetInput({ 'y','n' },"Continue exploring ? (y / n) : ");
-        if (continuePlaying == 'n') {
-            keepPlaying = false;
-        }
-        else if (continuePlaying == 'y') {
-            keepPlaying = true;
-        }
-        else {
-            cout << "kindly slecet (y/n): ";
-            cin >> continuePlaying;
+            char continuePlaying = checkAndGetInput({ 'y','n' }, "Continue exploring ? (y / n) : ");
             if (continuePlaying == 'n') {
                 keepPlaying = false;
             }
             else if (continuePlaying == 'y') {
                 keepPlaying = true;
             }
+            else {
+                cout << "kindly slecet (y/n): ";
+                cin >> continuePlaying;
+                if (continuePlaying == 'n') {
+                    keepPlaying = false;
+                }
+                else if (continuePlaying == 'y') {
+                    keepPlaying = true;
+                }
+            }
+            SET_COLOR(34);
+            cout << endl;
+            cout << "------------- Next Day -------------" << endl << endl;;
+            RESET_COLOR();
         }
-        SET_COLOR(34);
-        cout << endl;
-        cout << "------------- Next Day -------------" << endl << endl;;
-        RESET_COLOR();
+        
 
     } while (keepPlaying);
 }

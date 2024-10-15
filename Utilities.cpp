@@ -1,4 +1,4 @@
-#include "utilities.h"
+#include "Utilities.h"
 
 bool checkInVector(std::vector<char>& options, char& input) {
 	for (size_t i = 0; i < options.size(); i++) {
@@ -12,7 +12,7 @@ bool checkInVector(std::vector<char>& options, char& input) {
 char checkAndGetInput(std::vector<char> options, string text) {
 	char input = ' ';
 	while (true) {
-		cout << text << endl;
+		cout << text ;
 		cin >> input;
 		input = tolower(input);
 		if (checkInVector(options, input)) {
@@ -25,8 +25,8 @@ char checkAndGetInput(std::vector<char> options, string text) {
 	return input;
 }
 
-int generateRandomNumber() {
-	static std::mt19937 generator(42); // Seed initialized once
-	std::uniform_int_distribution<int> distribution(0, 100);
+int generateRandomNumber(int first, int last) {
+	static std::mt19937 generator(42); 
+	std::uniform_int_distribution<int> distribution(first, last);
 	return distribution(generator);
 }

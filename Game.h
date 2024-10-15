@@ -6,7 +6,7 @@
 #include <sstream>
 #include "Location.h"
 #include "Player.h"
-#include "utilities.h"
+#include "Utilities.h"
 #include "Beach.h"
 #include "Mountain.h"
 #include "Jungle.h"

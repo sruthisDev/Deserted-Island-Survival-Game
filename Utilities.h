@@ -12,6 +12,6 @@ bool checkInVector(std::vector<char>& options, char& input);
 
 char checkAndGetInput(std::vector<char> options, string text);
 
-int generateRandomNumber();
+int generateRandomNumber(int first, int last);
 
 #endif

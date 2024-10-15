@@ -6,12 +6,15 @@ class Beach : public Location
 {
 private:
 	bool taken;
+	int value;
 public:
 	Beach();
 	void setTaken(bool taken);
 	int getTaken();
 	virtual void draw();
 	virtual int visit(Player& p);
+	void SetValue(int value);
+	int GetValue();
 };
 #endif
 

@@ -2,6 +2,7 @@
 #define LOCATION_H
 #include<iostream>
 #include "Player.h"
+#include "Utilities.h"
 #include<vector>
 using namespace std;
 
@@ -10,7 +11,7 @@ class Location
 protected:
 	bool visited;
 	char symbol;
-	vector <string> resourcesAvailable;
+	vector <string> resourcesAvailable;	
 
 public:
 	Location(char s = 'L');
