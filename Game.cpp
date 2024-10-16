@@ -14,6 +14,8 @@ Game::Game() {
     numAnimalsToKill = 0;
     numToolsToCollect = 0;
     numDaysToSurvive = 0;
+    waterPerMove = 5;
+    dmgWhenHungryPerMove = 5;
 }
 //destructor
 Game::~Game() {
@@ -329,8 +331,16 @@ void Game::PlayGame() {
         }
         if (!wrongPosition) {
             world[playerRow][playerCol]->visit(p); // Visit a new location.
+
+            //These update the player stats at the end of the day
             p.SetSurvivalDays(1); // Increment survival days.
+            p.SetWater(p.GetWater() - this->waterPerMove);       //Daily toll of water consumption
+            if (!p.GetEnoughFood()) {
+                p.SetPlayerHealth(p.GetPlayerHealth() - this->dmgWhenHungryPerMove);
+            }
+            p.SetEnoughFood(false);
             p.PrintStatus(); // Print player's current status.
+            ////////
 
             if (p.CheckWinConditions()) {
                 WinGame(); // Player won the game.
@@ -349,16 +359,7 @@ void Game::PlayGame() {
             else if (continuePlaying == 'y') {
                 keepPlaying = true;
             }
-            else {
-                cout << "kindly slecet (y/n): ";
-                cin >> continuePlaying;
-                if (continuePlaying == 'n') {
-                    keepPlaying = false;
-                }
-                else if (continuePlaying == 'y') {
-                    keepPlaying = true;
-                }
-            }
+
             SET_COLOR(34);
             cout << endl;
             cout << "------------- Next Day -------------" << endl << endl;;

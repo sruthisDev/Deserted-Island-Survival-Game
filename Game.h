@@ -12,7 +12,6 @@
 #include "Jungle.h"
 #include "Cave.h"
 #include "Lake.h"
-#include <windows.h>
 
 using namespace std;
 
@@ -26,6 +25,7 @@ private:
     size_t playerRow, playerCol; // player`s position
     bool gameStatus; // status of the game
     int numDaysToSurvive, numAnimalsToKill, numToolsToCollect;
+    int waterPerMove, dmgWhenHungryPerMove;
 
 public:
     Game();

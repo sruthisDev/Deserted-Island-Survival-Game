@@ -3,6 +3,10 @@
 #include<iostream>
 using namespace std;
 
+//macro for console color
+#define SET_COLOR(code) std::cout << "\033[" << (code) << "m"
+#define RESET_COLOR() std::cout << "\033[0m"
+
 Location::Location(char s) {
 	visited = false;
 	symbol = s;
@@ -61,6 +65,7 @@ void Location::CollectResources(Player& p, size_t numResources) {
 	int sizeOfResources = static_cast<int>(availableResources.size() - 1);
 	int index;
 
+	SET_COLOR(33);
 	for (int i = 0; i < numResources; i++) {
 		if (sizeOfResources >= 0) {
 			index = generateRandomNumber(0, sizeOfResources);
@@ -68,6 +73,7 @@ void Location::CollectResources(Player& p, size_t numResources) {
 			cout << " [" << resourcesCollected.back() << "]";
 		}
 	}
+	RESET_COLOR();
 	cout << endl;
 	p.CollectRawMaterial(resourcesCollected);
 	p.CraftTools();

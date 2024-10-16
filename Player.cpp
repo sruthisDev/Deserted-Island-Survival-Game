@@ -1,6 +1,9 @@
 #include "Player.h"
 #include <iomanip> 
 
+#define SET_COLOR(code) std::cout << "\033[" << (code) << "m"
+#define RESET_COLOR() std::cout << "\033[0m"
+
 Player::Player() {
 	this->health = 100;
 	this->water = 100;
@@ -68,71 +71,77 @@ bool Player::hasResources(const vector<string>& required) {
 	}
 	return true;  // Enough resources
 }
-
+//Use resources to craft various tools
 void Player::useResources(const vector<string>& required) {
 	for (size_t i = 0; i < required.size(); ++i) {
 		this->rawMaterial[required[i]] -= 1; // Decrement one unit of each required resource
 	}
 }
 
+//Build a vector for the items that can be crafted based on the available resources in inventory
 vector<string> Player::showCraftableItems() {
-	/*vector<string> craftableItems;
-	cout << "You can craft the following tools based on your current materials:" << endl;
-	for (map<string, vector<string>>::iterator it = this->recipes.begin(); it != this->recipes.end(); ++it) {
-		if (this->hasResources(it->second)) {
-			cout << "- " << it->first << endl;
-			craftableItems.push_back(it->first);
-		}
-	}
-	return craftableItems;*/
-
 	vector<string> craftableItems;
-	cout << "You can craft the following tools based on your current materials:" << endl;
+	int maxWidth = 30; // Maximum width for the first column
+
+	// Build the output in a string stream
+	string output;
 	int index = 1;
+
+	// Check for craftable items and build output
 	for (map<string, vector<string>>::iterator it = this->recipes.begin(); it != this->recipes.end(); ++it) {
-	//for (auto it = this->recipes.begin(); it != this->recipes.end(); ++it) {
 		if (this->hasResources(it->second)) {
-			cout << index << ". " << it->first << endl;
+			// Format the line with padding
+			string itemLine = to_string(index) + ". " + it->first;
+			itemLine += string(maxWidth - itemLine.length(), ' '); // Pad to the max width
+
+			// Add to output
+			output += "| " + itemLine + " |\n";
 			craftableItems.push_back(it->first);
 			index++;
 		}
 	}
+
+	// Only print if there are craftable items
+	if (!craftableItems.empty()) {
+		cout << endl << "You can craft the following tools based on your current materials:" << endl;
+		cout << "+" << string(maxWidth, '-') << "+" << endl; // Top border line
+		cout << output; // Print the craftable items
+		cout << "+" << string(maxWidth, '-') << "+" << endl; // Bottom border line
+	}
+
 	return craftableItems;
 }
 
+
+//Crux of the tools crafting. Tools are crafted based on input of the Player from console
 void Player::CraftTools() {
-	vector<string> craftable = this->showCraftableItems();
-	if (craftable.empty()) {
-		cout << "No tools can be crafted with available resources." << endl;
-		return;
-	}
-	cout << "Do you wish to craft an item? (y/n): ";
-	char response;
-	cin >> response;
-	if (response == 'n') {
-		cout << "Crafting canceled." << endl;
-		return;
-	}
-
-	if (response == 'y') {
-		cout << "Enter the number of the tool you want to craft: ";
-		int toolChoice;
-		cin >> toolChoice;
-
-		if (toolChoice > 0 && toolChoice <= craftable.size()) {
-			string selectedTool = craftable[toolChoice - 1];
-			this->useResources(this->recipes[selectedTool]);
-			this->tools.push_back(selectedTool);
-			cout << "Successfully crafted a " << selectedTool << "." << endl;
+	char response = 'y';
+	while (response != 'n') {
+		
+		vector<string> craftable = this->showCraftableItems();
+		if (craftable.empty()) {
+			cout << endl << "No tools can be crafted with available resources." << endl;
+			return;
 		}
-		else {
-			cout << "Invalid tool choice. Please select a valid number from the list." << endl;
+
+		response = checkAndGetInput({'y','n'},"Do you wish to craft an item?(y/n):");
+
+		if (response == 'y') {
+			cout << "Enter the number of the tool you want to craft: ";
+			int toolChoice;
+			cin >> toolChoice;
+
+			if (toolChoice > 0 && toolChoice <= craftable.size()) {
+				string selectedTool = craftable[toolChoice - 1];
+				this->useResources(this->recipes[selectedTool]);
+				this->tools.push_back(selectedTool);
+				cout << "Successfully crafted a " << selectedTool << "." << endl;
+			}
+			else {
+				cout << "Invalid tool choice. Please select a valid number from the list." << endl;
+			}
 		}
 	}
-	else {
-		cout << "Invalid response. Please enter 'y' for yes or 'n' for no." << endl;
-	}
-
 }
 
 void Player::AddTools(string userToolName) {
@@ -156,8 +165,9 @@ void Player::CollectRawMaterial(vector<string>  items) {
 
 void Player::PrintStatus() {
 
-
-	cout << "GAME STATUS: " << endl;
+	SET_COLOR(36);
+	cout << endl << "GAME STATUS: " << endl;
+	RESET_COLOR();
 	int metricWidth = 20;  
 	int valueWidth = 10;  
 
@@ -198,7 +208,7 @@ bool Player::HasVisitedMysteryPlace()  {
 }
 
 void Player::SetEnoughFood(bool enoughFood) {
-	this->enoughFood = true;
+	this->enoughFood = enoughFood;
 }
 
 bool Player::GetEnoughFood() {
