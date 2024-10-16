@@ -8,10 +8,10 @@
 
 using namespace std;
 
-bool checkInVector(std::vector<char>& options, char& input);
+bool checkInVector(std::vector<char>& options, char& input);			
 
-char checkAndGetInput(std::vector<char> options, string text);
+char checkAndGetInput(std::vector<char> options, string text);			//Helper function to check if input is in the given options vector
 
-int generateRandomNumber(int first, int last);
+int generateRandomNumber(int first, int last);							//Helper function to generate random number based on uniform distribution
 
 #endif

@@ -9,6 +9,7 @@ bool checkInVector(std::vector<char>& options, char& input) {
 	return false;
 }
 
+//Check if text is in options char vector or not
 char checkAndGetInput(std::vector<char> options, string text) {
 	char input = ' ';
 	while (true) {
@@ -25,6 +26,7 @@ char checkAndGetInput(std::vector<char> options, string text) {
 	return input;
 }
 
+//Generate random number between start and end (ex 100 if you want %)
 int generateRandomNumber(int start, int end) {
 	static std::mt19937 generator(42); 
 	std::uniform_int_distribution<int> distribution(start, end);

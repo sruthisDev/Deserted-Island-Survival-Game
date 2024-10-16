@@ -16,8 +16,8 @@ private:
 	int survivalDays; // tells how many days player survived.
 	int numAnimalsKilled; // tells how many animals player killed.
 	vector<string> tools;// it shows what tools player has.
-	map<string,int> rawMaterial; //
-	bool HasfoundMysteryPlace;
+	map<string,int> rawMaterial; //Map to hold raw materials and count
+	bool HasfoundMysteryPlace;	//One of the win objectives of the games. Player must have found the mysteryPlace
 
 public:
 
@@ -27,9 +27,9 @@ public:
 	void AddTools(string toolName); // remove it if rew bcz in craft tools u can add it to the tool vector
 	size_t GetNumOfTools();
 
-	void CollectRawMaterial(vector<string>  rawMaterial);
-	void PrintStatus();
-	bool CheckWinConditions();
+	void CollectRawMaterial(vector<string>  rawMaterial);	//Resources are added to players inventory at various locations
+	void PrintStatus();			//Prints the status of player including Health, Water, Win condition status etc
+	bool CheckWinConditions();	//Evaluates if all the win conditions have been achieved
 
 
 	//Setters and Getters
