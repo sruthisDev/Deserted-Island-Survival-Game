@@ -11,5 +11,6 @@ public:
 	int getTaken();
 	virtual void draw();
 	virtual int visit(Player& p);
+	void ScrapeEvent(Player& p);
 };
 #endif

@@ -15,10 +15,8 @@ public:
 	virtual int visit(Player& p);
 	void SetValue(int value);
 	int GetValue();
-
-	/*vector<string>& getResources() override {
-		return resourcesAvailable;
-	}*/
+	void DriftWoodEvent(Player& p);
+	void FallingCoconutEvent(Player& p);
 };
 #endif
 

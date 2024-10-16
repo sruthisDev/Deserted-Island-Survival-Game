@@ -1,8 +1,5 @@
 #include "Game.h"
 
-#define SET_COLOR(code) std::cout << "\033[" << (code) << "m"
-#define RESET_COLOR() std::cout << "\033[0m"
-
 //Default constructor 
 Game::Game() {  
     world = nullptr;
@@ -336,7 +333,9 @@ void Game::PlayGame() {
             p.SetSurvivalDays(1); // Increment survival days.
             p.SetWater(p.GetWater() - this->waterPerMove);       //Daily toll of water consumption
             if (!p.GetEnoughFood()) {
+                cout << endl << "Not enough food today" << endl;
                 p.SetPlayerHealth(p.GetPlayerHealth() - this->dmgWhenHungryPerMove);
+                cout << "Lose 5 health" << endl;
             }
             p.SetEnoughFood(false);
             p.PrintStatus(); // Print player's current status.

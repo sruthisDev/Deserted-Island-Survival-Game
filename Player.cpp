@@ -1,9 +1,6 @@
 #include "Player.h"
 #include <iomanip> 
 
-#define SET_COLOR(code) std::cout << "\033[" << (code) << "m"
-#define RESET_COLOR() std::cout << "\033[0m"
-
 Player::Player() {
 	this->health = 100;
 	this->water = 100;
@@ -28,7 +25,12 @@ Player::Player() {
 
 //sets the player`s health
 void Player::SetPlayerHealth(int userHealth) {
-	this->health = userHealth;
+	if (userHealth > 100) {
+		this->health = 100;
+	}
+	else {
+		this->health = userHealth;
+	}
 }
 
 // get`s the player`s health 
@@ -38,7 +40,12 @@ int Player::GetPlayerHealth() {
 
 // set`s player`s water
 void Player::SetWater(int userWater) {
-	this->water = userWater;
+	if (userWater > 100) {
+		this->water = 100;
+	}
+	else {
+		this->water = userWater;
+	}
 }
 
 //get`s player`s water
@@ -120,7 +127,7 @@ void Player::CraftTools() {
 		
 		vector<string> craftable = this->showCraftableItems();
 		if (craftable.empty()) {
-			cout << endl << "No tools can be crafted with available resources." << endl;
+			cout << endl << "No tools can be crafted with available resources now." << endl;
 			return;
 		}
 
@@ -153,6 +160,13 @@ size_t Player::GetNumOfTools() {
 
 void Player::CollectRawMaterial(vector<string>  items) {
 	
+	SET_COLOR(33);
+	for (int i = 0; i < items.size(); i++) {
+		cout << "[" << items.at(i) << "]";
+	}
+	RESET_COLOR();
+	cout << endl;
+
 	for(size_t i=0; i< items.size(); i++){
 		if (this->rawMaterial.count(items[i]) > 0) {
 			this->rawMaterial[items[i]]++;	//Add number of resources
@@ -210,7 +224,16 @@ bool Player::HasVisitedMysteryPlace()  {
 void Player::SetEnoughFood(bool enoughFood) {
 	this->enoughFood = enoughFood;
 }
-
 bool Player::GetEnoughFood() {
 	return this->enoughFood;
+}
+
+bool Player::hasToolX(string toolName){
+	auto it = std::find(this->tools.begin(), this->tools.end(), toolName);
+	if (it != this->tools.end()) {
+		return true;
+	}
+	else {
+		return false;
+	}
 }

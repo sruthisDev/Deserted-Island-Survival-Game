@@ -65,16 +65,13 @@ void Location::CollectResources(Player& p, size_t numResources) {
 	int sizeOfResources = static_cast<int>(availableResources.size() - 1);
 	int index;
 
-	SET_COLOR(33);
 	for (int i = 0; i < numResources; i++) {
 		if (sizeOfResources >= 0) {
 			index = generateRandomNumber(0, sizeOfResources);
 			resourcesCollected.push_back(availableResources[index]);
-			cout << " [" << resourcesCollected.back() << "]";
+			//cout << " [" << resourcesCollected.back() << "]";
 		}
 	}
-	RESET_COLOR();
-	cout << endl;
 	p.CollectRawMaterial(resourcesCollected);
 	p.CraftTools();
 }

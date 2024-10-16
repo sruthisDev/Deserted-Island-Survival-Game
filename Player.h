@@ -25,7 +25,7 @@ public:
 
 	Player();
 	
-	void CraftTools();
+	void CraftTools();				//Tries to craft tools based on the available resources in the inventory
 	void AddTools(string toolName); // remove it if rew bcz in craft tools u can add it to the tool vector
 	size_t GetNumOfTools();
 
@@ -33,7 +33,6 @@ public:
 	void PrintStatus();			//Prints the status of player including Health, Water, Win condition status etc
 	bool CheckWinConditions();	//Evaluates if all the win conditions have been achieved
 
-	void craftTool();
 	bool hasResources(const vector<string>& required);
 	void useResources(const vector<string>& required);
 	vector<string> showCraftableItems();
@@ -56,6 +55,8 @@ public:
 
 	void foundMysteryPlace();
 	bool HasVisitedMysteryPlace();
+
+	bool hasToolX(string toolName);
 
 
 };

@@ -8,9 +8,21 @@
 
 using namespace std;
 
-bool checkInVector(std::vector<char>& options, char& input);			
+#define SET_COLOR(code) std::cout << "\033[" << (code) << "m"
+#define RESET_COLOR() std::cout << "\033[0m"
 
-char checkAndGetInput(std::vector<char> options, string text);			//Helper function to check if input is in the given options vector
+struct Option {
+	string text;     // Option text
+	bool enabled;    // Is the option enabled or disabled
+};
+
+bool checkInVector(vector<char>& options, char input);			
+
+char checkAndGetInput(vector<char> options, string text);			//Helper function to check if input is in the given options vector
+
+void printOptions(const vector<Option>& options);
+
+char checkAndGetInput(const vector<Option>& options); //Specific to handle events and its options
 
 int generateRandomNumber(int first, int last);							//Helper function to generate random number based on uniform distribution
 

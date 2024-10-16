@@ -1,6 +1,6 @@
 #include "Utilities.h"
 
-bool checkInVector(std::vector<char>& options, char& input) {
+bool checkInVector(vector<char>& options, char input) {
 	for (size_t i = 0; i < options.size(); i++) {
 		if (input == options[i]) {
 			return true;
@@ -11,20 +11,57 @@ bool checkInVector(std::vector<char>& options, char& input) {
 
 //Check if text is in options char vector or not
 char checkAndGetInput(std::vector<char> options, string text) {
-	char input = ' ';
+	string input = "";
 	while (true) {
 		cout << text ;
 		cin >> input;
-		input = tolower(input);
-		if (checkInVector(options, input)) {
-			break;
-		}
-		else {
+
+		if(input.length() == 1 && checkInVector(options, tolower(input[0])))
+			return tolower(input[0]);
+		else 
 			cout << "Invalid Input " << endl;
-		}
 	}
-	return input;
 }
+
+// Function to print the options
+void printOptions(const vector<Option>& options) {
+    for (size_t i = 0; i < options.size(); ++i) {
+        // Print the option text
+        if (options[i].enabled) {
+            cout << i + 1 << ") " << options[i].text << endl; // Normal color
+        }
+        else {
+            // Print disabled options in grey
+            SET_COLOR(31); // Set to grey
+            cout << i + 1 << ") " << options[i].text << " (disabled)" << endl;
+            RESET_COLOR(); // Reset color to default
+        }
+    }
+}
+
+// Function to check and get input
+char checkAndGetInput(const vector<Option>& options) {
+    string input;
+    while (true) {
+        cin >> input;
+
+        // Validate input and check for the enabled state
+        if (input.length() == 1 && isdigit(input[0])) {
+            int choice = input[0] - '0'; // Convert char to int
+            if (choice > 0 && choice <= options.size()) {
+                // Return valid input only if it's enabled
+                if (options[choice - 1].enabled) {
+                    return input[0]; // Return the valid input
+                }
+                else {
+                    cout << "Option " << choice << " is disabled." << endl;
+                }
+            }
+        }
+        cout << "Invalid Input. Please enter a valid option." << endl;
+    }
+}
+
 
 //Generate random number between start and end (ex 100 if you want %)
 int generateRandomNumber(int start, int end) {

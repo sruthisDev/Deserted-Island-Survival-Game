@@ -39,7 +39,7 @@ int Jungle::visit(Player& p) {
 		}
 	}
 	else {
-		numResources = 1;
+		numResources = 2;
 		cout << "You are again at the Jungle. You find fewer resources." << endl;
 	}
 	CollectResources(p, numResources);
