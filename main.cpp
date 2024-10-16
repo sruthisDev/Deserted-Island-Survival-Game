@@ -6,7 +6,7 @@ using  namespace std;
 
 int main()
 {
-    Game gameObj;
+    Game gameObj; 
     gameObj.PlayGame();
     return 0;
 }

@@ -20,11 +20,11 @@ class Game
 {
 
 private:
-    Location*** world;
-    Player p;
-    size_t rows, cols;
-    size_t playerRow, playerCol;
-    bool gameStatus;
+    Location*** world; // 2D loctions pointer 
+    Player p; //player`s object
+    size_t rows, cols; // grid size
+    size_t playerRow, playerCol; // player`s position
+    bool gameStatus; // status of the game
     int numDaysToSurvive, numAnimalsToKill, numToolsToCollect;
 
 public:

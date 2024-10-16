@@ -3,7 +3,8 @@
 #define SET_COLOR(code) std::cout << "\033[" << (code) << "m"
 #define RESET_COLOR() std::cout << "\033[0m"
 
-Game::Game() {
+//Default constructor 
+Game::Game() {  
     world = nullptr;
     rows = 0;
     cols = 0;
@@ -14,7 +15,7 @@ Game::Game() {
     numToolsToCollect = 0;
     numDaysToSurvive = 0;
 }
-
+//destructor
 Game::~Game() {
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
@@ -25,6 +26,7 @@ Game::~Game() {
     delete[] world;
 }
 
+//This function is called when the player wins the game.
 void Game::WinGame() {
     cout << "\033[33m";
     cout << R"(
@@ -36,6 +38,7 @@ You have successfully survived on the COMP-180 Island and won the game!
          ~~~~                  ~~~~  
        ~~~~                      ~~~~
 )";
+    // Change the text color to green.
     cout << "\033[32m";
     cout << R"(
       ~~~~          \O/            ~~~~
@@ -52,9 +55,10 @@ You have successfully survived on the COMP-180 Island and won the game!
         ~~~~~~~~~~~~~~~~  ~~~~~~~~~~~~~~~
 #########################################################################
 )" << endl;
-    cout << "\033[0m";
+    cout << "\033[0m"; // // Reset the text color to default.
 }
 
+//This function is called when the player lost the game.
 void Game::GameOver() {
     cout << "\033[33m";
     cout << R"(
@@ -67,7 +71,7 @@ Unfortunately, you have not survived on COMP-180 Island and lost the game!
        ~~~~                      ~~~~
 )";
 
-    // Set text color to light red for the center structure (the defeated player)
+    // Set text color to light red for the center structure 
     cout << "\033[91m"; // ANSI escape code for light red
     cout << R"(
       ~~~~          X X            ~~~~
@@ -87,6 +91,7 @@ Unfortunately, you have not survived on COMP-180 Island and lost the game!
     cout << "\033[0m";
 }
 
+//This function loads the data from the  text file to a 2d vector
 void Game::ReadDataFile(vector<vector<string>>& data) {
     ifstream inputFile("InputDataFile.txt");
 
@@ -96,9 +101,9 @@ void Game::ReadDataFile(vector<vector<string>>& data) {
     }
 
     int rows, cols;
-    inputFile >> rows >> cols;
+    inputFile >> rows >> cols; // grid dimensions
     inputFile.ignore();
-    data.resize(rows, vector<string>(cols));
+    data.resize(rows, vector<string>(cols)); // resize the grid as required
 
     string line;
     int currentRow = 0;
@@ -138,6 +143,7 @@ void Game::ReadDataFile(vector<vector<string>>& data) {
     }
 }
 
+//This function returns a locations object as per the data in the file 
 Location* Game::GetLocation(string className) {
     if (className == "Lake" || className == "lake" || className == "LAKE") {
         return new Lake();
@@ -155,25 +161,26 @@ Location* Game::GetLocation(string className) {
         return new Mountain();
     }
     else {
-        return new Location();
+        return new Location(); // Returns a default locations object.
     }
 
 }
 
+//This function sets the game environment
 void Game::SetUpGame(vector < vector<string>>& data) {
-    rows = data.size();
-    cols = data[0].size();
+    rows = data.size(); // sets number of rows
+    cols = data[0].size(); // sets number of columns 
     
     world = new Location * *[rows];
     for (int i = 0; i < rows; i++) {
         world[i] = new Location * [cols];
         for (int j = 0; j < cols; j++) {
-            world[i][j] = GetLocation(data[i][j]);
+            world[i][j] = GetLocation(data[i][j]); // assigns the location based on the data given in the text file
         }
     }
 
-    this->playerRow = 0;
-    this->playerCol = 0;
+    this->playerRow = 0; // player`s postion
+    this->playerCol = 0; // player`s postion
 }
 
 void Game::SetUpGame(int userRows, int userCols, int userPlayerRow, int userPlayerCol) {
@@ -209,7 +216,7 @@ void Game::SetUpGame(int userRows, int userCols, int userPlayerRow, int userPlay
     }
     
 }
-
+//This function draws the grid as per the given size 
 void Game::DrawGame() {
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
@@ -224,12 +231,15 @@ void Game::DrawGame() {
     }    
 }
 
+// Calculates the win conditions based on the game's data grid.
 void Game::calculateWinConditions(vector<vector<string>>& data) {
-    this->numDaysToSurvive = static_cast<int>((data[0].size() * data.size()) / 2);
-    this->numAnimalsToKill = 0;
-    this->numToolsToCollect = static_cast<int>(((data[0].size() * data.size()) / 3) + 5);
+    this->numDaysToSurvive = static_cast<int>((data[0].size() * data.size()) / 2); // Calculate required survival days.
+    this->numAnimalsToKill = 0; 
+    this->numToolsToCollect = static_cast<int>(((data[0].size() * data.size()) / 3) + 5); // Calculate the number of tools to collect.
+
 }
 
+// Main game loop where the player interacts with the game.
 void Game::PlayGame() {
     vector < vector<string>> data;
     ReadDataFile(data);
@@ -244,6 +254,7 @@ void Game::PlayGame() {
 
     system("cls"); 
     SET_COLOR(33);  
+    // Display game introduction and location details.
     cout << endl;
     cout << "========================================\n";
     cout << "        DESERTED ISLAND SURVIVAL            \n";
@@ -253,6 +264,7 @@ void Game::PlayGame() {
     cout << "storms, gather resources and navigate the \n";
     cout << "island's diverse locations." << endl << endl;
     SET_COLOR(33);
+    // Display winning conditions for the game.
     cout << "Beach:    Gather resources " << endl;
     cout << "Cave:     Hidden Treasure" << endl;
     cout << "Jungle:   dsd" << endl;
@@ -277,6 +289,7 @@ void Game::PlayGame() {
         wrongPosition = false;
         move = checkAndGetInput({ 'w', 'a', 's', 'd' }, "Move (WASD): ");
 
+        // change player postion based on input.
         switch (move) {
         case 'w':
             if (playerRow > 0) {
@@ -315,19 +328,20 @@ void Game::PlayGame() {
             break;
         }
         if (!wrongPosition) {
-            world[playerRow][playerCol]->visit(p);
-            p.SetSurvivalDays(1);
-            p.PrintStatus();
+            world[playerRow][playerCol]->visit(p); // Visit a new location.
+            p.SetSurvivalDays(1); // Increment survival days.
+            p.PrintStatus(); // Print player's current status.
 
             if (p.CheckWinConditions()) {
-                WinGame();
+                WinGame(); // Player won the game.
                 break;
             }
             if (p.GetPlayerHealth() < 0) {
-                GameOver();
+                GameOver(); // Player lost the game.
                 break;
             }
 
+            // Prompt for continuing the game.
             char continuePlaying = checkAndGetInput({ 'y','n' }, "Continue exploring ? (y / n) : ");
             if (continuePlaying == 'n') {
                 keepPlaying = false;

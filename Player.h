@@ -10,13 +10,13 @@ using namespace std;
 class Player
 {
 private:
-	int health;
-	int water; // remove if not req
-	bool enoughFood;
-	int survivalDays;
-	int numAnimalsKilled;
-	vector<string> tools;
-	map<string,int> rawMaterial;
+	int health; // reperesents player`s health.
+	int water; // represents players` water level.
+	bool enoughFood; // tells whether player has enough foor or not.
+	int survivalDays; // tells how many days player survived.
+	int numAnimalsKilled; // tells how many animals player killed.
+	vector<string> tools;// it shows what tools player has.
+	map<string,int> rawMaterial; //
 	bool HasfoundMysteryPlace;
 
 public:

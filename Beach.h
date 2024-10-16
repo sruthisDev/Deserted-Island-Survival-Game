@@ -16,9 +16,9 @@ public:
 	void SetValue(int value);
 	int GetValue();
 
-	vector<string>& getResources() override {
+	/*vector<string>& getResources() override {
 		return resourcesAvailable;
-	}
+	}*/
 };
 #endif
 

@@ -11,23 +11,32 @@ Player::Player() {
 	this->tools;
 }
 
+//sets the player`s health
 void Player::SetPlayerHealth(int userHealth) {
 	this->health = userHealth;
 }
+
+// get`s the player`s health 
 int Player::GetPlayerHealth() {
 	return health;
 }
 
+// set`s player`s water
 void Player::SetWater(int userWater) {
 	this->water = userWater;
 }
+
+//get`s player`s water
 int Player::GetWater() {
 	return this->water;
 }
 
+
 void Player::SetSurvivalDays(int userSurvivalDays) {
 	this->survivalDays += userSurvivalDays;
 }
+
+
 int Player::GetSurvivalDays() {
 	return this->survivalDays;
 }
