@@ -1,7 +1,7 @@
 #include "Jungle.h"
 
 Jungle::Jungle() :Location('J') {
-	resourcesAvailable = { "wood", "stones", "leaves", "wild plants" };
+	resourcesAvailable = { "coconut","wood", "stone", "leaves", "plants", "fruits", "resin", "fibers", "animal_hide", "animal_bone"};
 	taken = false;
 }
 void Jungle::setTaken(bool userTaken) {

@@ -1,7 +1,7 @@
 #include "Cave.h"
 
 Cave::Cave() :Location('C') {
-	resourcesAvailable = { "stones"};
+	resourcesAvailable = { "stone", "animal_hide"};
 	taken = false;
 }
 void Cave::setTaken(bool userTaken) {

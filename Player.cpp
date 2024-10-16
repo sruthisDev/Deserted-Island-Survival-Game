@@ -9,6 +9,18 @@ Player::Player() {
 	this->numAnimalsKilled= 0;
 	this->HasfoundMysteryPlace = false;
 	this->tools;
+	this->recipes = {
+	   {"axe", {"wood", "stone"}},
+	   {"bandage", {"cloth", "medical_herbs"}},
+	   {"spear", {"wood", "stone", "rope"}},
+	   {"torch", {"wood", "animal_fat"}},
+	   {"sleeping bag", {"cloth", "reeds"}},
+	   {"rope", {"coconuts"}},
+	   {"clothing", {"coconuts", "reeds"}},
+	   {"container", {"wood", "rope"}},
+	   {"mud pack", {"mud", "medical_herbs"}},
+	   {"whistle", {"animal_bone", "wood"}}
+	};
 }
 
 //sets the player`s health
@@ -48,19 +60,79 @@ int Player::GetNumAnimalsKilled() {
 	return this->numAnimalsKilled;
 }
 
+bool Player::hasResources(const vector<string>& required) {
+	for (size_t i = 0; i < required.size(); ++i) {
+		if (this->rawMaterial[required[i]] <= 0) {
+			return false;  // Not enough of this resource
+		}
+	}
+	return true;  // Enough resources
+}
+
+void Player::useResources(const vector<string>& required) {
+	for (size_t i = 0; i < required.size(); ++i) {
+		this->rawMaterial[required[i]] -= 1; // Decrement one unit of each required resource
+	}
+}
+
+vector<string> Player::showCraftableItems() {
+	/*vector<string> craftableItems;
+	cout << "You can craft the following tools based on your current materials:" << endl;
+	for (map<string, vector<string>>::iterator it = this->recipes.begin(); it != this->recipes.end(); ++it) {
+		if (this->hasResources(it->second)) {
+			cout << "- " << it->first << endl;
+			craftableItems.push_back(it->first);
+		}
+	}
+	return craftableItems;*/
+
+	vector<string> craftableItems;
+	cout << "You can craft the following tools based on your current materials:" << endl;
+	int index = 1;
+	for (map<string, vector<string>>::iterator it = this->recipes.begin(); it != this->recipes.end(); ++it) {
+	//for (auto it = this->recipes.begin(); it != this->recipes.end(); ++it) {
+		if (this->hasResources(it->second)) {
+			cout << index << ". " << it->first << endl;
+			craftableItems.push_back(it->first);
+			index++;
+		}
+	}
+	return craftableItems;
+}
+
 void Player::CraftTools() {
+	vector<string> craftable = this->showCraftableItems();
+	if (craftable.empty()) {
+		cout << "No tools can be crafted with available resources." << endl;
+		return;
+	}
+	cout << "Do you wish to craft an item? (y/n): ";
+	char response;
+	cin >> response;
+	if (response == 'n') {
+		cout << "Crafting canceled." << endl;
+		return;
+	}
 
-	//auto woodIter = std::find(rawMaterial.begin(), rawMaterial.end(), "wood");
-	//auto stoneIter = std::find(rawMaterial.begin(), rawMaterial.end(), "stones");
+	if (response == 'y') {
+		cout << "Enter the number of the tool you want to craft: ";
+		int toolChoice;
+		cin >> toolChoice;
 
-	//if (woodIter != rawMaterial.end() && stoneIter != rawMaterial.end()) {
-	//	tools.push_back("hammer");
-	//	rawMaterial.erase(woodIter);  
-	//	stoneIter = std::find(rawMaterial.begin(), rawMaterial.end(), "stones");
-	//	rawMaterial.erase(stoneIter);  
+		if (toolChoice > 0 && toolChoice <= craftable.size()) {
+			string selectedTool = craftable[toolChoice - 1];
+			this->useResources(this->recipes[selectedTool]);
+			this->tools.push_back(selectedTool);
+			cout << "Successfully crafted a " << selectedTool << "." << endl;
+		}
+		else {
+			cout << "Invalid tool choice. Please select a valid number from the list." << endl;
+		}
+	}
+	else {
+		cout << "Invalid response. Please enter 'y' for yes or 'n' for no." << endl;
+	}
 
-	//	std::cout << "Crafted a hammer using wood and stone.\n";
-	//}
 }
 
 void Player::AddTools(string userToolName) {

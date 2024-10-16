@@ -1,7 +1,7 @@
 #include "Mountain.h"
 
 Mountain::Mountain() :Location('M') {
-	resourcesAvailable = { "stones", "leaves", "wood" };
+	resourcesAvailable = { "stone", "leaves", "wood", "animal_hide", "animal_bone"};
 	taken = false;
 }
 void Mountain::setTaken(bool userTaken) {

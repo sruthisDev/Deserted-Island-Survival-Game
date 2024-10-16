@@ -1,7 +1,7 @@
 #include "Lake.h"
 
 Lake::Lake() :Location('L') {
-	resourcesAvailable = { "Drinking_Water", "fish" };
+	resourcesAvailable = { "water", "fish", "reeds", "medicinal_herbs", "mud"};
 	taken = false;
 }
 void Lake::setTaken(bool userTaken) {

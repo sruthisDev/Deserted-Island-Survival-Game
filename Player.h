@@ -18,6 +18,7 @@ private:
 	vector<string> tools;// it shows what tools player has.
 	map<string,int> rawMaterial; //Map to hold raw materials and count
 	bool HasfoundMysteryPlace;	//One of the win objectives of the games. Player must have found the mysteryPlace
+	map<string, vector<string>> recipes; // Recipes for crafting tools
 
 public:
 
@@ -31,6 +32,10 @@ public:
 	void PrintStatus();			//Prints the status of player including Health, Water, Win condition status etc
 	bool CheckWinConditions();	//Evaluates if all the win conditions have been achieved
 
+	void craftTool();
+	bool hasResources(const vector<string>& required);
+	void useResources(const vector<string>& required);
+	vector<string> showCraftableItems();
 
 	//Setters and Getters
 	void SetPlayerHealth(int health);

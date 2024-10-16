@@ -2,7 +2,7 @@
 
 
 Beach::Beach() :Location('B') {
-	resourcesAvailable = { "coconuts", "crabs", "fish", "shells", "sand", "leaves" };
+	resourcesAvailable = { "coconuts", "crabs", "shells", "leaves", "rope", "wood"};
 	taken = false;
 	value = 0;
 }
