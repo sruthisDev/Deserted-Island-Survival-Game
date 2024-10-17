@@ -33,7 +33,11 @@ int Jungle::visit(Player& p) {
 	}
 	CollectResources(p, numResources);
 	WildAnimalAttackEvent(p);
-	FollowMonkeyEvent(p);
+	
+	int eventProb = generateRandomNumber(0, 100);
+	if (eventProb < 20) {
+		FollowMonkeyEvent(p);
+	}
 	return 1;
 }
 
@@ -45,7 +49,7 @@ void Jungle::WildAnimalAttackEvent(Player& p) {
 		{"Escape", true}
 	};
 
-	cout << endl << "A wild bear suddenly appears in the dense jungle!" << endl;
+	cout << endl << "A wild boar suddenly appears in the dense jungle!" << endl;
 	cout << "You need to act quickly. What will you do?" << endl;
 	printOptions(options);
 	cout << "Select an option (1-" << options.size() << "): ";
@@ -57,7 +61,7 @@ void Jungle::WildAnimalAttackEvent(Player& p) {
 	case '1':
 		cout << "You use your tool to attack the wild animal." << endl;
 		cout << "You successfully kill the animal and obtain an animal hide!" << endl;
-		p.CollectRawMaterial({ "animal_hide" });
+		p.CollectRawMaterial({ "animal_hide","animal_fat"});
 		cout << "You eat the animal to satisfy food quota for the day" << endl;
 		p.SetEnoughFood(true);
 		p.SetNumAnimalsKilled(1);

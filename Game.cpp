@@ -188,7 +188,12 @@ void Game::ReadDataFile(vector<vector<string>>& data) {
         // Process regular win condition
         else if (words[0] == "regularWinCondition") {
             if (words.size() == 2) {
-                this->regularWinCondition = stoi(words[1]);
+                if (words[1] == "0" || words[1] == "false") {
+                    this->regularWinCondition = false;
+                }
+                else {
+                    this->regularWinCondition = true;
+                }
             }
             else {
                 cout << "Invalid format for regular win condition." << endl;
@@ -303,36 +308,44 @@ void Game::DrawGame() {
 
 // Calculates the win conditions based on the game's data grid.
 void Game::calculateWinConditions(vector<vector<string>>& data) {
-    this->numDaysToSurvive = static_cast<int>((data[0].size() * data.size()) / 2); // Calculate required survival days.
-    this->numAnimalsToKill = 3; 
-    this->numToolsToCollect = static_cast<int>(((data[0].size() * data.size()) / 5) ); // Calculate the number of tools to collect.
+    if (this->regularWinCondition) {
+        this->numDaysToSurvive = static_cast<int>((data[0].size() * data.size()) / 2); // Calculate required survival days.
+        this->numAnimalsToKill = 3;
+        this->numToolsToCollect = static_cast<int>(((data[0].size() * data.size()) / 5)); // Calculate the number of tools to collect.
 
-    if (this->numToolsToCollect <= 0) {
-        this->numToolsToCollect = 1;
+        if (this->numToolsToCollect <= 0) {
+            this->numToolsToCollect = 1;
+        }
     }
+    else {
+        this->numDaysToSurvive = 5;
+        this->numAnimalsToKill = 1;
+        this->numToolsToCollect = 2;
+    }
+
 }
 
 bool Game::CheckWinConditions(Player&p){
-    //if (GetNumOfTools() >= 5 && GetSurvivalDays() >= 30 && GetNumAnimalsKilled() >= 10 && HasVisitedMysteryPlace())
-    if (this->regularWinCondition) {
-        if (p.GetNumOfTools() >= this->numToolsToCollect && p.GetSurvivalDays() >= this->numDaysToSurvive && p.HasVisitedMysteryPlace() && p.GetNumAnimalsKilled() >= this->numAnimalsToKill) {
-            cout << "\n \nWin Conditions Met: " << endl;
-            cout << "Required number of tools were crafted (" << p.GetNumOfTools() << ")" << endl;
-            cout << "Required number of animals were killed (" << p.GetNumAnimalsKilled() << ") " << endl;
-            cout << "Survived for total (" << p.GetSurvivalDays() << ") days. " << endl;;
-            cout << "Found the caves secret place" << endl;
-            return true;
-        }
+    
+    if (p.GetNumOfTools() >= this->numToolsToCollect) {
+        p.toolsWinCondition = true;
     }
-    else{
-        if (p.GetNumOfTools() >= 2 && p.GetSurvivalDays() >= 4 && p.HasVisitedMysteryPlace() && p.GetNumAnimalsKilled() >= 1) {
-            cout << "\n \nWin Conditions Met: " << endl;
-            cout << "Required number of tools were crafted (" << p.GetNumOfTools() << ")" << endl;
-            cout << "Required number of animals were killed (" << p.GetNumAnimalsKilled() << ") " << endl;
-            cout << "Survived for total (" << p.GetSurvivalDays() << ") days. " << endl;;
-            cout << "Found the caves secret place" << endl;
-            return true;
-        }
+
+    if (p.GetNumAnimalsKilled() >= this->numAnimalsToKill) {
+        p.animalsKilledWinCondition = true;
+    }
+
+    if (p.GetSurvivalDays() >= this->numDaysToSurvive) {
+        p.survivalDaysWinCondition = true;
+    }
+
+    if (p.survivalDaysWinCondition && p.animalsKilledWinCondition && p.HasVisitedMysteryPlace() && p.toolsWinCondition) {
+        cout << "\n \nWin Conditions Met: " << endl;
+        cout << "Required number of tools were crafted (" << p.GetNumOfTools() << ")" << endl;
+        cout << "Required number of animals were killed (" << p.GetNumAnimalsKilled() << ") " << endl;
+        cout << "Survived for total (" << p.GetSurvivalDays() << ") days. " << endl;;
+        cout << "Found the caves secret place" << endl;
+        return true;
     }
 
     return false;
@@ -363,11 +376,13 @@ void Game::PlayGame() {
     cout << "island's diverse locations." << endl << endl;
     SET_COLOR(33);
     // Display winning conditions for the game.
-    cout << "Beach:    Contains various resources found on beach like Coconuts " << endl;
-    cout << "Cave:     Hidden Treasure crucial for winning the game" << endl;
-    cout << "Jungle:   Trove of rich resources, visit to gain" << endl;
-    cout << "Lake:     Site for quenching thirst" << endl;
-    cout << "Mountain: Rare resources are found here" << endl;
+    cout << "Beach(B):    Contains various resources found on beach like Coconuts " << endl;
+    cout << "Cave(C):     Hidden Treasure crucial for winning the game" << endl;
+    cout << "Jungle(J):   Trove of rich resources, visit to gain" << endl;
+    cout << "Lake(L):     Site for quenching thirst" << endl;
+    cout << "Mountain(M): Rare resources are found here" << endl;
+    cout << "Location(*): Basic location" << endl;
+    cout << "In the grid the locations are represented by the characters shown above after you have visited them" << endl;
     cout << endl;
     cout << "========================================\n";
     

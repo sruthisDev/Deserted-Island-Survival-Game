@@ -1,7 +1,7 @@
 #include "Lake.h"
 
 Lake::Lake() :Location('L') {
-	resourcesAvailable = { "water", "fish", "reeds", "medicinal_herbs", "mud"};
+	resourcesAvailable = { "fish", "reeds", "medicinal_herbs", "mud"};
 	taken = false;
 }
 void Lake::setTaken(bool userTaken) {
@@ -23,7 +23,7 @@ int Lake::visit(Player& p) {
 	size_t numResources = 0;
 	if (!visited) {
 		visited = true;
-		numResources = getResources().size();
+		numResources = getResources().size()/2;
 		cout << "You have arrived at the Lake. You find various resources." << endl;
 	}
 	else {
@@ -31,10 +31,15 @@ int Lake::visit(Player& p) {
 		cout << "You are again at the Lake. You find fewer resources." << endl;
 	}
 	CollectResources(p, numResources);
-    FishingEvent(p);
-    cout << endl << "The lake has fresh water. You can quench your thirst and restore some health" << endl;
+    int eventProb = generateRandomNumber(0, 100);
+    if (eventProb < 20) {
+        FishingEvent(p);
+    }
+
+    cout << "The lake has fresh water. You can quench your thirst and recover health" << endl;
     p.SetWater(90);
-    p.SetPlayerHealth(p.GetPlayerHealth()+20);
+    p.SetPlayerHealth(p.GetPlayerHealth() + 20);
+
 	return 1;
 }
 
@@ -59,13 +64,8 @@ void Lake::FishingEvent(Player& p) {
         cout << "You attempt to catch fish with your bare hands." << endl;
         // Random chance of success
         if (generateRandomNumber(0,3) % 3 == 0) {
-            if (!p.GetEnoughFood()) {
-                cout << "You managed to catch a fish! It will be a good meal." << endl;
-                p.SetEnoughFood(true);
-            }
-            else {
-                cout << "you managed to catch a fish but you are already full." << endl;
-            }
+            cout << "You managed to catch a fish! It will be a good meal." << endl;
+            p.SetEnoughFood(true);
         }
         else {
             cout << "The fish slipped away. Better luck next time." << endl;

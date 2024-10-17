@@ -23,7 +23,7 @@ int Mountain::visit(Player& p) {
 	size_t numResources = 0;
 	if (!visited) {
 		visited = true;
-		numResources = getResources().size();
+		numResources = getResources().size() - 3;
 		cout << "Climbing the mountain" << endl;
 	}
 	else {
@@ -82,7 +82,7 @@ void Mountain::WildAnimalAttackEvent(Player& p) {
 		{"Escape", true}
 	};
 
-	cout << endl << "A wild bear suddenly appears in the dense jungle!" << endl;
+	cout << endl << "A wild bear suddenly appears!" << endl;
 	cout << "You need to act quickly. What will you do?" << endl;
 	printOptions(options);
 	cout << "Select an option (1-" << options.size() << "): ";

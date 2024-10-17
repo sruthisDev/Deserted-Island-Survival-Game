@@ -4,23 +4,26 @@
 Player::Player() {
 	this->health = 100;
 	this->water = 100;
-	this->enoughFood = true;
+	this->enoughFood = false;
 	this->survivalDays = 0;
 	this->numAnimalsKilled= 0;
 	this->HasfoundMysteryPlace = false;
 	this->tools;
 	this->recipes = {
 	   {"axe", {"wood", "stone"}},
-	   {"bandage", {"cloth", "medical_herbs"}},
+	   {"bandage", {"medical_herbs"}},
 	   {"spear", {"wood", "stone", "rope"}},
 	   {"torch", {"wood", "animal_fat"}},
-	   {"sleeping bag", {"cloth", "reeds"}},
+	   {"sleeping bag", {"leaves", "reeds"}},
 	   {"rope", {"coconuts"}},
-	   {"clothing", {"coconuts", "reeds"}},
+	   {"clothing", {"animal_hide", "leaves"}},
 	   {"container", {"wood", "rope"}},
 	   {"mud pack", {"mud", "medical_herbs"}},
 	   {"whistle", {"animal_bone", "wood"}}
 	};
+	this->toolsWinCondition = false;
+	this->animalsKilledWinCondition = false;
+	this->survivalDaysWinCondition = false;
 }
 
 //sets the player`s health
@@ -176,7 +179,7 @@ void Player::CollectRawMaterial(vector<string>  items) {
 	for(size_t i=0; i< items.size(); i++){
 				
 		if (isFoodItem(items[i])) {
-			if (!this->GetEnoughFood()) {
+			if (this->GetEnoughFood()) {
 				cout << items[i] << " is a food resource. But you have enough food for today. Cannot store food for future" << endl;
 			}
 			else {
@@ -210,21 +213,42 @@ void Player::PrintStatus() {
 	SET_COLOR(36);
 	cout << endl << "GAME STATUS: " << endl;
 	RESET_COLOR();
-	int metricWidth = 20;  
-	int valueWidth = 10;  
+	int metricWidth = 20;
+	int valueWidth = 40;  // Increase to accommodate extra text
 
-	cout << "+-------------------+---------+\n";
-	cout << "| " << left << setw(metricWidth - 2) << "Metric" << "| " << setw(valueWidth - 2) << "Current" << "|\n";
-	cout << "+-------------------+---------+\n";
+	std::cout << "+-------------------+---------------------------------------+\n";
+	std::cout << "| " << std::left << std::setw(metricWidth - 2) << "Metric"
+		<< "| " << std::setw(valueWidth - 2) << "Current" << "|\n";
+	std::cout << "+-------------------+---------------------------------------+\n";
+	std::cout << "| " << std::left << std::setw(metricWidth - 2) << "Player Health"
+		<< "| " << std::setw(valueWidth - 2) << GetPlayerHealth() << "|\n";
+	std::cout << "| " << std::left << std::setw(metricWidth - 2) << "Player Water"
+		<< "| " << std::setw(valueWidth - 2) << GetWater() << "|\n";
+	std::cout << "| " << std::left << std::setw(metricWidth - 2) << "Has Food for Today"
+		<< "| " << std::setw(valueWidth - 2) << GetEnoughFood() << "|\n";
 
-	cout << "| " << left << setw(metricWidth - 2) << "Player Health" << "| " << setw(valueWidth - 2) << GetPlayerHealth() << "|\n";
-	cout << "| " << left << setw(metricWidth - 2) << "Player Water" << "| " << setw(valueWidth - 2) << GetWater() << "|\n";
-	cout << "| " << left << setw(metricWidth - 2) << "Has Food for Today" << "| " << setw(valueWidth - 2) << GetEnoughFood() << "|\n";
-	cout << "| " << left << setw(metricWidth - 2) << "Tools Collected" << "| " << setw(valueWidth - 2) << GetNumOfTools() << "|\n";
-	cout << "| " << left << setw(metricWidth - 2) << "Animals Killed" << "| " << setw(valueWidth - 2) << GetNumAnimalsKilled() << "|\n";
-	cout << "| " << left << setw(metricWidth - 2) << "Days Survived" << "| " << setw(valueWidth - 2) << GetSurvivalDays() << "|\n";
+	std::string toolsStatus = std::to_string(GetNumOfTools());
+	if (this->toolsWinCondition) {
+		toolsStatus += " (Achieved Win Condition)";
+	}
+	std::cout << "| " << std::left << std::setw(metricWidth - 2) << "Tools Collected"
+		<< "| " << std::setw(valueWidth - 2) << toolsStatus << "|\n";
 
-	cout << "+-------------------+---------+\n";
+	std::string animalsKilledStatus = std::to_string(GetNumAnimalsKilled());
+	if (this->animalsKilledWinCondition) {
+		animalsKilledStatus += " (Achieved Win Condition)";
+	}
+	std::cout << "| " << std::left << std::setw(metricWidth - 2) << "Animals Killed"
+		<< "| " << std::setw(valueWidth - 2) << animalsKilledStatus << "|\n";
+
+	std::string survivalDaysStatus = std::to_string(GetSurvivalDays());
+	if (this->survivalDaysWinCondition) {
+		survivalDaysStatus += " (Achieved Win Condition)";
+	}
+	std::cout << "| " << std::left << std::setw(metricWidth - 2) << "Days Survived"
+		<< "| " << std::setw(valueWidth - 2) << survivalDaysStatus << "|\n";
+
+	std::cout << "+-------------------+---------------------------------------+\n";
 }
 
 void Player::foundMysteryPlace() {

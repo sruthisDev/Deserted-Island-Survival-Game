@@ -14,7 +14,7 @@ protected:
 	vector <string> resourcesAvailable;	
 
 public:
-	Location(char s = 'L');
+	Location(char s = '*');
 
 	
 

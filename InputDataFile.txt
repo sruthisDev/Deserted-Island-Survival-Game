@@ -4,7 +4,6 @@ o o o beach 0 0
 o o o jungle 0 0
 o o o beach 0 0
 o o o beach 0 0
-o o o beach 0 0
-initPlayerRow 0
+initPlayerRow 1
 initPlayerCol 0
 regularWinCondition 0

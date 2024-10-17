@@ -30,7 +30,7 @@ int Cave::visit(Player& p) {
 	}
 	else {
 		numResources = 1;
-		secretEventSuccess = 70;
+		secretEventSuccess = 90;
 		cout << "You are again at the Cave. You find fewer resources." << endl;
 	}
 	CollectResources(p, numResources);
@@ -48,7 +48,11 @@ int Cave::visit(Player& p) {
 	}
 
 	StagnantWaterEvent(p);
-	BatsEvent(p);
+	int eventProb = generateRandomNumber(0, 100);
+	if (eventProb < 40) {
+		BatsEvent(p);
+	}
+
 	return 1;
 }
 
@@ -104,6 +108,7 @@ void Cave::BatsEvent(Player& p) {
 	switch (in) {
 	case '1':
 		cout << "You blow the whistle, and the bats scatter in all directions revealing some resources." << endl;
+		p.CollectRawMaterial({ "animal_fat" });
 		break;
 		
 	case '2':

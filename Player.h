@@ -60,6 +60,8 @@ public:
 	bool isFoodItem(string resourceName);
 	bool isWaterItem(string resourceName);
 
+	bool toolsWinCondition, animalsKilledWinCondition, survivalDaysWinCondition;
+
 };
 
 #endif
