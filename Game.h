@@ -26,6 +26,7 @@ private:
     bool gameStatus, regularWinCondition; // status of the game
     int numDaysToSurvive, numAnimalsToKill, numToolsToCollect;
     int waterPerMove, dmgWhenHungryPerMove , dmgWhenThirstyPerMove;
+    bool visitInitialSpecialLocation;
 
 public:
     Game();

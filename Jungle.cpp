@@ -25,6 +25,7 @@ int Jungle::visit(Player& p) {
 	if (!visited) {
 		visited = true;
 		numResources = getResources().size()-3;
+		cout << "You have arrived at the Jungle. The jungle is very rich in resources." << endl;
 	}
 	else {
 		numResources = 2;

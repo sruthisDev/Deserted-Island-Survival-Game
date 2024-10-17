@@ -32,6 +32,9 @@ int Lake::visit(Player& p) {
 	}
 	CollectResources(p, numResources);
     FishingEvent(p);
+    cout << endl << "The lake has fresh water. You can quench your thirst and restore some health" << endl;
+    p.SetWater(90);
+    p.SetPlayerHealth(p.GetPlayerHealth()+20);
 	return 1;
 }
 
@@ -56,8 +59,13 @@ void Lake::FishingEvent(Player& p) {
         cout << "You attempt to catch fish with your bare hands." << endl;
         // Random chance of success
         if (generateRandomNumber(0,3) % 3 == 0) {
-            cout << "You managed to catch a fish! It will be a good meal." << endl;
-            p.SetEnoughFood(true);
+            if (!p.GetEnoughFood()) {
+                cout << "You managed to catch a fish! It will be a good meal." << endl;
+                p.SetEnoughFood(true);
+            }
+            else {
+                cout << "you managed to catch a fish but you are already full." << endl;
+            }
         }
         else {
             cout << "The fish slipped away. Better luck next time." << endl;

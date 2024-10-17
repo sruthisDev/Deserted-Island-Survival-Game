@@ -99,15 +99,18 @@ vector<string> Player::showCraftableItems() {
 
 	// Check for craftable items and build output
 	for (map<string, vector<string>>::iterator it = this->recipes.begin(); it != this->recipes.end(); ++it) {
-		if (this->hasResources(it->second)) {
-			// Format the line with padding
-			string itemLine = to_string(index) + ". " + it->first;
-			itemLine += string(maxWidth - itemLine.length(), ' '); // Pad to the max width
+		// Check if the item is already in the tools vector
+		if (std::find(tools.begin(), tools.end(), it->first) == tools.end()) {
+			if (this->hasResources(it->second)) {
+				// Format the line with padding
+				string itemLine = to_string(index) + ". " + it->first;
+				itemLine += string(maxWidth - itemLine.length(), ' '); // Pad to the max width
 
-			// Add to output
-			output += "| " + itemLine + " |\n";
-			craftableItems.push_back(it->first);
-			index++;
+				// Add to output
+				output += "| " + itemLine + " |\n";
+				craftableItems.push_back(it->first);
+				index++;
+			}
 		}
 	}
 
@@ -173,8 +176,13 @@ void Player::CollectRawMaterial(vector<string>  items) {
 	for(size_t i=0; i< items.size(); i++){
 				
 		if (isFoodItem(items[i])) {
-			cout << items[i] << " is a food item. Consuming it for today's quota of food" << endl;
-			this->SetEnoughFood(true);
+			if (!this->GetEnoughFood()) {
+				cout << items[i] << " is a food resource. But you have enough food for today. Cannot store food for future" << endl;
+			}
+			else {
+				cout << items[i] << " is a food item. Consuming it for today's quota of food" << endl;
+				this->SetEnoughFood(true);
+			}
 			items.erase(items.begin() + i);
 			continue;
 		}
@@ -194,8 +202,6 @@ void Player::CollectRawMaterial(vector<string>  items) {
 		else {
 			this->rawMaterial[items[i]] = 1; //First time resource
 		}
-		
-
 	}
 }
 

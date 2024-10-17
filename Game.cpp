@@ -15,6 +15,7 @@ Game::Game() {
     dmgWhenHungryPerMove = 5;
     dmgWhenThirstyPerMove = 5;
     regularWinCondition = false;
+    visitInitialSpecialLocation = false;
 }
 //destructor
 Game::~Game() {
@@ -131,17 +132,75 @@ void Game::ReadDataFile(vector<vector<string>>& data) {
 
     istringstream iss(line);
     int wordCount = 0;
-    string word;
-    while (iss >> word) {
-        ++wordCount;
+    vector<string> words;
+    string tempWord;
+    while (iss >> tempWord) {
+        words.push_back(tempWord);
     }
-    if (wordCount == cols) {
+    if (words.size() == cols) {
         cout << "Looks like there is an additional row for defining the map, ignoring line " << currentRow + 1 << endl;
+    }
+    else {
+        if (words[0] == "initPlayerRow") {
+            if (words.size() == 2) {
+                this->playerRow = stoi(words[1]);
+            }            
+        }
+        else {
+            cout << "This row should contain playerRow initialization" << endl;
+            exit(1);
+        }
     }
     
     while (getline(inputFile, line)) {
-       //Process Rest of the file
+        istringstream iss(line);
+        vector<string> words;
+        string tempWord;
+        while (iss >> tempWord) {
+            words.push_back(tempWord);
+        }
+
+        // Skip empty lines
+        if (words.empty()) {
+            continue;
+        }
+
+        // Process player column initialization
+        if (words[0] == "initPlayerRow") {
+            if (words.size() == 2) {
+                this->playerRow = stoi(words[1]);
+            }
+            else {
+                cout << "Invalid format for playerCol initialization." << endl;
+                exit(1);
+            }
+        }
+        // Process player column initialization
+        else if (words[0] == "initPlayerCol") {
+            if (words.size() == 2) {
+                this->playerCol = stoi(words[1]);
+            }
+            else {
+                cout << "Invalid format for playerCol initialization." << endl;
+                exit(1);
+            }
+        }
+        // Process regular win condition
+        else if (words[0] == "regularWinCondition") {
+            if (words.size() == 2) {
+                this->regularWinCondition = stoi(words[1]);
+            }
+            else {
+                cout << "Invalid format for regular win condition." << endl;
+                exit(1);
+            }
+        }
+        // If line does not match known keywords
+        else {
+            cout << "Unrecognized line: " << line << endl;
+        }
     }
+    inputFile.close();
 }
 
 //This function returns a locations object as per the data in the file 
@@ -172,6 +231,17 @@ void Game::SetUpGame(vector < vector<string>>& data) {
     rows = data.size(); // sets number of rows
     cols = data[0].size(); // sets number of columns 
     
+    if ((data[this->playerRow][playerCol] != "0") && (data[this->playerRow][playerCol] != "o")) {
+        cout << "Looks like the initial player location assigned is a special location. It is suggestible that initial location is not a special location." << endl;
+        char in = checkAndGetInput({'y','n'},"Do you want to treat this as special location or ignore?(y/n)");
+        if (in == 'y') {
+            data[this->playerRow][this->playerCol] = "location" ;
+        }
+        else {
+            this->visitInitialSpecialLocation = true;
+        }
+    }
+
     world = new Location * *[rows];
     for (int i = 0; i < rows; i++) {
         world[i] = new Location * [cols];
@@ -180,8 +250,7 @@ void Game::SetUpGame(vector < vector<string>>& data) {
         }
     }
 
-    this->playerRow = 0; // player`s postion
-    this->playerCol = 0; // player`s postion
+    
 }
 
 void Game::SetUpGame(int userRows, int userCols, int userPlayerRow, int userPlayerCol) {
@@ -277,7 +346,6 @@ void Game::PlayGame() {
     //SetUpGame(10, 10, 4, 5);
     calculateWinConditions(data);
 
-    world[playerRow][playerCol]->visit(p,1);
     char move;
     bool keepPlaying = true;
     bool wrongPosition = false;
@@ -295,11 +363,11 @@ void Game::PlayGame() {
     cout << "island's diverse locations." << endl << endl;
     SET_COLOR(33);
     // Display winning conditions for the game.
-    cout << "Beach:    Gather resources " << endl;
-    cout << "Cave:     Hidden Treasure" << endl;
-    cout << "Jungle:   dsd" << endl;
-    cout << "Lake:     dsd" << endl;
-    cout << "Mountain: date" << endl;
+    cout << "Beach:    Contains various resources found on beach like Coconuts " << endl;
+    cout << "Cave:     Hidden Treasure crucial for winning the game" << endl;
+    cout << "Jungle:   Trove of rich resources, visit to gain" << endl;
+    cout << "Lake:     Site for quenching thirst" << endl;
+    cout << "Mountain: Rare resources are found here" << endl;
     cout << endl;
     cout << "========================================\n";
     
@@ -307,12 +375,18 @@ void Game::PlayGame() {
     cout << "Win Conditions are:" << endl;
     cout << "1) Survive " << this->numDaysToSurvive << " days" << endl;
     cout << "2) Kill " << this->numAnimalsToKill << " animals" << endl;
-    cout << "3) Find the secret treasure" << endl;
+    cout << "3) Find the secret place" << endl;
     cout << "4) Collect a minimum of " << this->numToolsToCollect << " tools to ensure surival for longer" << endl;
     RESET_COLOR();
     cout << "\nUse 'W' to move up, 'S' to move down, 'A' to move left, 'D' to move right.\n\n";
 
-    
+    if (this->visitInitialSpecialLocation == true) {
+        DrawGame();
+        world[this->playerRow][this->playerCol]->visit(p);
+    }
+    else {
+        world[playerRow][playerCol]->visit(p, 1);
+    }    
 
     do {
         DrawGame();

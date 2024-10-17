@@ -26,8 +26,6 @@ int Cave::visit(Player& p) {
 		visited = true;
 		numResources = getResources().size();
 		cout << "You have arrived at the Cave. You find various resources." << endl;
-		//cout << "You've discovered a secret place! You have achieved an objective!\n";
-		//p.foundMysteryPlace();
 		secretEventSuccess = 10;
 	}
 	else {
