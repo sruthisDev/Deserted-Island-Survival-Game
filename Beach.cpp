@@ -48,6 +48,11 @@ int Beach::visit(Player& p) {
 	else if (eventProb < 80) {
 		FallingCoconutEvent(p);
 	}
+	
+	if (p.hasToolX("spear") || p.hasToolX("fishing_rod")) {
+		cout << " Since you have a spear or a fishing rod to catch fish. You succesfully catch fish" << endl;
+		p.SetEnoughFood(true);
+	}
 	return 1;
 }
 

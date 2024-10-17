@@ -31,5 +31,45 @@ int Lake::visit(Player& p) {
 		cout << "You are again at the Lake. You find fewer resources." << endl;
 	}
 	CollectResources(p, numResources);
+    FishingEvent(p);
 	return 1;
+}
+
+void Lake::FishingEvent(Player& p) {
+    // Define options and their enabled state
+    vector<Option> options = {
+        {"Try to catch fish with bare hands", true},
+        {"Use a spear", p.hasToolX("spear")},
+        {"Do nothing", true},
+    };
+
+    // Build the prompt string
+    cout << endl << "You see fish swimming near the shore." << endl;
+    printOptions(options);
+    cout << "Select an option (1-" << options.size() << "): ";
+
+    // Get valid input from the player
+    char in = checkAndGetInput(options);
+
+    switch (in) {
+    case '1':
+        cout << "You attempt to catch fish with your bare hands." << endl;
+        // Random chance of success
+        if (generateRandomNumber(0,3) % 3 == 0) {
+            cout << "You managed to catch a fish! It will be a good meal." << endl;
+            p.SetEnoughFood(true);
+        }
+        else {
+            cout << "The fish slipped away. Better luck next time." << endl;
+        }
+        break;
+    case '2':
+        cout << "You use your fishing spear and catch fish easily." << endl;
+        p.SetEnoughFood(true);
+        cout << "You caught a fish. It will make a great meal." << endl;
+        break;
+    case '3':
+        cout << "You decide not to attempt catching the fish." << endl;
+        break;
+    }
 }

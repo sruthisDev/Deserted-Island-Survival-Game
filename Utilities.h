@@ -20,10 +20,12 @@ bool checkInVector(vector<char>& options, char input);
 
 char checkAndGetInput(vector<char> options, string text);			//Helper function to check if input is in the given options vector
 
-void printOptions(const vector<Option>& options);
+void printOptions(vector<Option>& options);
 
-char checkAndGetInput(const vector<Option>& options); //Specific to handle events and its options
+char checkAndGetInput(vector<Option>& options); //Specific to handle events and its options
 
 int generateRandomNumber(int first, int last);							//Helper function to generate random number based on uniform distribution
+
+void deleteFromVector(vector<string>& vec, string value);
 
 #endif

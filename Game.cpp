@@ -13,6 +13,8 @@ Game::Game() {
     numDaysToSurvive = 0;
     waterPerMove = 5;
     dmgWhenHungryPerMove = 5;
+    dmgWhenThirstyPerMove = 5;
+    regularWinCondition = false;
 }
 //destructor
 Game::~Game() {
@@ -233,9 +235,38 @@ void Game::DrawGame() {
 // Calculates the win conditions based on the game's data grid.
 void Game::calculateWinConditions(vector<vector<string>>& data) {
     this->numDaysToSurvive = static_cast<int>((data[0].size() * data.size()) / 2); // Calculate required survival days.
-    this->numAnimalsToKill = 0; 
-    this->numToolsToCollect = static_cast<int>(((data[0].size() * data.size()) / 3) + 5); // Calculate the number of tools to collect.
+    this->numAnimalsToKill = 3; 
+    this->numToolsToCollect = static_cast<int>(((data[0].size() * data.size()) / 5) ); // Calculate the number of tools to collect.
 
+    if (this->numToolsToCollect <= 0) {
+        this->numToolsToCollect = 1;
+    }
+}
+
+bool Game::CheckWinConditions(Player&p){
+    //if (GetNumOfTools() >= 5 && GetSurvivalDays() >= 30 && GetNumAnimalsKilled() >= 10 && HasVisitedMysteryPlace())
+    if (this->regularWinCondition) {
+        if (p.GetNumOfTools() >= this->numToolsToCollect && p.GetSurvivalDays() >= this->numDaysToSurvive && p.HasVisitedMysteryPlace() && p.GetNumAnimalsKilled() >= this->numAnimalsToKill) {
+            cout << "\n \nWin Conditions Met: " << endl;
+            cout << "Required number of tools were crafted (" << p.GetNumOfTools() << ")" << endl;
+            cout << "Required number of animals were killed (" << p.GetNumAnimalsKilled() << ") " << endl;
+            cout << "Survived for total (" << p.GetSurvivalDays() << ") days. " << endl;;
+            cout << "Found the caves secret place" << endl;
+            return true;
+        }
+    }
+    else{
+        if (p.GetNumOfTools() >= 2 && p.GetSurvivalDays() >= 4 && p.HasVisitedMysteryPlace() && p.GetNumAnimalsKilled() >= 1) {
+            cout << "\n \nWin Conditions Met: " << endl;
+            cout << "Required number of tools were crafted (" << p.GetNumOfTools() << ")" << endl;
+            cout << "Required number of animals were killed (" << p.GetNumAnimalsKilled() << ") " << endl;
+            cout << "Survived for total (" << p.GetSurvivalDays() << ") days. " << endl;;
+            cout << "Found the caves secret place" << endl;
+            return true;
+        }
+    }
+
+    return false;
 }
 
 // Main game loop where the player interacts with the game.
@@ -331,25 +362,28 @@ void Game::PlayGame() {
 
             //These update the player stats at the end of the day
             p.SetSurvivalDays(1); // Increment survival days.
-            p.SetWater(p.GetWater() - this->waterPerMove);       //Daily toll of water consumption
             if (!p.GetEnoughFood()) {
                 cout << endl << "Not enough food today" << endl;
                 p.SetPlayerHealth(p.GetPlayerHealth() - this->dmgWhenHungryPerMove);
                 cout << "Lose 5 health" << endl;
             }
-            p.SetEnoughFood(false);
             p.PrintStatus(); // Print player's current status.
-            ////////
+            p.SetEnoughFood(false);
 
-            if (p.CheckWinConditions()) {
+            if (this->CheckWinConditions(p)) {
                 WinGame(); // Player won the game.
                 break;
             }
-            if (p.GetPlayerHealth() < 0) {
+            if (p.GetPlayerHealth() <= 0) {
                 GameOver(); // Player lost the game.
                 break;
             }
 
+            p.SetWater(p.GetWater() - this->waterPerMove);       //Daily toll of water consumption
+            if (p.GetWater() <= 10) {
+                cout << "Hydration level too low. Health will be impacted" << endl;
+                p.SetPlayerHealth(p.GetPlayerHealth() - this->dmgWhenThirstyPerMove);
+            }
             // Prompt for continuing the game.
             char continuePlaying = checkAndGetInput({ 'y','n' }, "Continue exploring ? (y / n) : ");
             if (continuePlaying == 'n') {

@@ -11,8 +11,9 @@ public:
 	int getTaken();
 	virtual void draw();
 	virtual int visit(Player& p);
-	void attack(Player& p);
-	void escape(Player& p);
+	void WildAnimalAttackEvent(Player& p);
+	void PoisonousPlantEvent(Player& p);
+	void FollowMonkeyEvent(Player& p);
 };
 #endif
 

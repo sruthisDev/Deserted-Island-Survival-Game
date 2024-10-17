@@ -23,9 +23,9 @@ private:
     Player p; //player`s object
     size_t rows, cols; // grid size
     size_t playerRow, playerCol; // player`s position
-    bool gameStatus; // status of the game
+    bool gameStatus, regularWinCondition; // status of the game
     int numDaysToSurvive, numAnimalsToKill, numToolsToCollect;
-    int waterPerMove, dmgWhenHungryPerMove;
+    int waterPerMove, dmgWhenHungryPerMove , dmgWhenThirstyPerMove;
 
 public:
     Game();
@@ -39,6 +39,7 @@ public:
     void GameOver();
     void WinGame();
     void calculateWinConditions(vector <vector<string>>& data);
+    bool CheckWinConditions(Player& p);
     Location* GetLocation(string className);
 
 };

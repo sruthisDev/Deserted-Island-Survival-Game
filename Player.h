@@ -31,7 +31,6 @@ public:
 
 	void CollectRawMaterial(vector<string>  rawMaterial);	//Resources are added to players inventory at various locations
 	void PrintStatus();			//Prints the status of player including Health, Water, Win condition status etc
-	bool CheckWinConditions();	//Evaluates if all the win conditions have been achieved
 
 	bool hasResources(const vector<string>& required);
 	void useResources(const vector<string>& required);
@@ -58,6 +57,8 @@ public:
 
 	bool hasToolX(string toolName);
 
+	bool isFoodItem(string resourceName);
+	bool isWaterItem(string resourceName);
 
 };
 

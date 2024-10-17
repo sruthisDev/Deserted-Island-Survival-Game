@@ -10,7 +10,7 @@ bool checkInVector(vector<char>& options, char input) {
 }
 
 //Check if text is in options char vector or not
-char checkAndGetInput(std::vector<char> options, string text) {
+char checkAndGetInput(vector<char> options, string text) {
 	string input = "";
 	while (true) {
 		cout << text ;
@@ -24,7 +24,7 @@ char checkAndGetInput(std::vector<char> options, string text) {
 }
 
 // Function to print the options
-void printOptions(const vector<Option>& options) {
+void printOptions(vector<Option>& options) {
     for (size_t i = 0; i < options.size(); ++i) {
         // Print the option text
         if (options[i].enabled) {
@@ -40,7 +40,7 @@ void printOptions(const vector<Option>& options) {
 }
 
 // Function to check and get input
-char checkAndGetInput(const vector<Option>& options) {
+char checkAndGetInput(vector<Option>& options) {
     string input;
     while (true) {
         cin >> input;
@@ -62,10 +62,17 @@ char checkAndGetInput(const vector<Option>& options) {
     }
 }
 
-
 //Generate random number between start and end (ex 100 if you want %)
 int generateRandomNumber(int start, int end) {
 	static std::mt19937 generator(42); 
 	std::uniform_int_distribution<int> distribution(start, end);
 	return distribution(generator);
+}
+
+void deleteFromVector(vector<string>& vec, string value) {
+    auto it = find(vec.begin(), vec.end(), value);
+
+    if (it != vec.end()) {
+        vec.erase(it);
+    }
 }

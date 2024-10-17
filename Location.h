@@ -1,9 +1,9 @@
 #ifndef LOCATION_H
 #define LOCATION_H
 #include<iostream>
+#include<vector>
 #include "Player.h"
 #include "Utilities.h"
-#include<vector>
 using namespace std;
 
 class Location

@@ -12,5 +12,6 @@ public:
 	virtual void draw();
 	virtual int visit(Player& p);
 	void ScrapeEvent(Player& p);
+	void WildAnimalAttackEvent(Player& p);
 };
 #endif

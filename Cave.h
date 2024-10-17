@@ -13,5 +13,8 @@ public:
 	int getTaken();
 	virtual void draw();
 	virtual int visit(Player& p);
+	void StagnantWaterEvent(Player& p);
+	void BatsEvent(Player& p);
+
 };
 #endif

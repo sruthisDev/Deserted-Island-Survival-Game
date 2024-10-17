@@ -1,5 +1,5 @@
 5 6
-lake beach mountain cave jungle 0
+lake jungle mountain cave jungle 0
 Beach o o beach 0 0
 o o o jungle 0 0
 o o o beach 0 0

@@ -43,6 +43,9 @@ void Player::SetWater(int userWater) {
 	if (userWater > 100) {
 		this->water = 100;
 	}
+	else if(userWater < 0){
+		this->water = 0;
+	}
 	else {
 		this->water = userWater;
 	}
@@ -168,12 +171,31 @@ void Player::CollectRawMaterial(vector<string>  items) {
 	cout << endl;
 
 	for(size_t i=0; i< items.size(); i++){
+				
+		if (isFoodItem(items[i])) {
+			cout << items[i] << " is a food item. Consuming it for today's quota of food" << endl;
+			this->SetEnoughFood(true);
+			items.erase(items.begin() + i);
+			continue;
+		}
+		else if (isWaterItem(items[i])) {
+			string prompt = items[i] + " is a water source. It will restore water level by x. Drint it(y/n):";
+			char in = checkAndGetInput({ 'y','n' }, prompt);
+			if (in == 'y') {
+				this->SetWater(this->GetWater() + 30);
+				items.erase(items.begin() + i);
+			}			
+			continue;
+		}
+		
 		if (this->rawMaterial.count(items[i]) > 0) {
 			this->rawMaterial[items[i]]++;	//Add number of resources
 		}
 		else {
 			this->rawMaterial[items[i]] = 1; //First time resource
 		}
+		
+
 	}
 }
 
@@ -199,20 +221,6 @@ void Player::PrintStatus() {
 	cout << "+-------------------+---------+\n";
 }
 
-bool Player::CheckWinConditions() {
-
-	//if (GetNumOfTools() >= 5 && GetSurvivalDays() >= 30 && GetNumAnimalsKilled() >= 10 && HasVisitedMysteryPlace())
-	if (GetNumOfTools() >= 2 && GetSurvivalDays() >= 4 && HasVisitedMysteryPlace() && GetNumAnimalsKilled() >= 1) {
-		cout << "\n \nWin Conditions Met: "<< endl; 
-		cout << "Required number of tools were crafted ("<< GetNumOfTools () << ")" << endl;
-		cout << "Required number of animals were killed ("<< GetNumAnimalsKilled ()<<") " << endl;
-		cout << "Survived for total (" << GetSurvivalDays() << ") days. " << endl;;
-		cout << "Found the caves secret place" << endl;
-		return true;
-	}
-	return false;
-}
-
 void Player::foundMysteryPlace() {
 	this->HasfoundMysteryPlace = true;
 }
@@ -236,4 +244,18 @@ bool Player::hasToolX(string toolName){
 	else {
 		return false;
 	}
+}
+
+bool Player::isFoodItem(string resourceName) {
+	if (resourceName == "fruits" || resourceName == "fish" || resourceName == "crabs") {
+		return true;
+	}
+	return false;
+}
+
+bool Player::isWaterItem(string resourceName) {
+	if (resourceName == "fruits" || resourceName == "fish" || resourceName == "crabs") {
+		return true;
+	}
+	return false;
 }
