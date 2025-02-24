@@ -1,13 +1,13 @@
-### Deserted Island Survival
+# Deserted Island Survival
 
 Deserted Island Survival is a console-based adventure game where you must navigate different locations on a deserted island, face various challenges, collect resources, and craft tools to survive. The goal is to stay alive while completing certain objectives within the game world.
 
-# Game Overview
+### Game Overview
 
 You are stranded on a deserted island and must survive by exploring different locations, gathering resources, and overcoming obstacles such as wild animals, harsh weather, and scarce resources. Your key metrics for survival include managing water and health. 
 The game includes five distinct locations with unique events and resources: Cave, Lake, Mountain, Beach, and Jungle.
 
-# Input File Format
+### Input File Format
 
 The game reads an input file to set up the world map. The file name should be "InputDataFile.txt" and should follow this format:
 
@@ -34,7 +34,7 @@ This sample file is provided as part of the zip
 
 Each location has various resources whose types can be for food, for water and for crafting purposes. Each location has a min of two events that occur randomly based on probability. Furthermore visiting same location again gives lesser resources.
 
-# Recipes for Tools:
+### Recipes for Tools:
 
     Axe:
 
